@@ -1,12 +1,12 @@
-import express from 'express';
-import cors from 'cors';
-import morgan from 'morgan';
 import 'dotenv/config';
-
+import cors from 'cors';
+import express from 'express';
+import morgan from 'morgan';
 import userRoutes from './src/routes/user.routes.js';
+import { environment } from './src/config/environment.js';
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = environment.server.port || 3000;
 
 app.use(cors());
 app.use(express.json());

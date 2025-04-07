@@ -21,7 +21,6 @@ const userSchema = new Schema({
 }, {
   timestamps: true,
   paranoid: true,
-  versionKey: true
 });
 
 userSchema.plugin(autopopulate);
