@@ -6,5 +6,5 @@ export const getMongoUri = () => {
   const encodedUsername = encodeURIComponent(username);
   const encodedPassword = encodeURIComponent(password);
 
-  return `mongodb+srv://${encodedUsername}:${encodedPassword}@cluster0.kdma1.mongodb.net/`;
+  return `mongodb+srv://${encodedUsername}:${encodedPassword}@cluster0.63252sl.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`;
 };
