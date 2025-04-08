@@ -28,7 +28,7 @@ export const getActivityById = async (req, res) => {
 
 export const createActivity = async (req, res) => {
   try {
-    const { title, description, status, dueDate, priority } = req.body;
+    const { title, description, status, dueDate } = req.body;
 
     if (!title || !description) {
       return res.status(400).json({ message: 'Title and description are required' });
@@ -39,7 +39,6 @@ export const createActivity = async (req, res) => {
       description,
       status: status || 'pending',
       dueDate,
-      priority: priority || 'medium',
       user: req.user.id
     });
 
@@ -51,11 +50,11 @@ export const createActivity = async (req, res) => {
 
 export const updateActivity = async (req, res) => {
   try {
-    const { title, description, status, dueDate, priority } = req.body;
+    const { title, description, status, dueDate } = req.body;
 
     const activity = await Activity.findOneAndUpdate(
       { _id: req.params.id, user: req.user.id },
-      { title, description, status, dueDate, priority },
+      { title, description, status, dueDate },
       { new: true, runValidators: true }
     );
 

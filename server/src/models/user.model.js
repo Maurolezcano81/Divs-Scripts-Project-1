@@ -40,6 +40,11 @@ const userSchema = new Schema({
     trim: true
   },
   //##################
+ emotions: [{
+    type: Schema.Types.ObjectId,
+    ref: 'Emotion',
+    autopopulate: { select: 'mood intensity createdAt notes' }
+  }],
   chats: [{
     type: Schema.Types.ObjectId,
     ref: 'Chat',
