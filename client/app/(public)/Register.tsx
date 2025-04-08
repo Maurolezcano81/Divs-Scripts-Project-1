@@ -61,10 +61,6 @@ const Register = () => {
                     variant="headlineLarge" style={{ color: colors.primary, fontFamily: "Poppins-Bold" }}>
                     Registro
                 </Text>
-
-
-
-
             </View>
 
             <View className="gap-8 mt-8">
@@ -209,7 +205,7 @@ const Register = () => {
             </View>
 
 
-            <View className="mt-8">
+            <View className="my-8">
                 <GreenButton
                     disabled={Object.keys(errors).length > 1}
                     onPress={handleSubmit(onSubmit)}>
