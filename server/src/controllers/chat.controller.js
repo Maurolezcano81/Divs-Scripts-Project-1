@@ -16,7 +16,7 @@ export const getChatById = async (req, res) => {
   try {
     const chat = await Chat.findOne({
       _id: req.params.id,
-      user: req.user._id,
+      user:req.user.id,
     });
 
     if (!chat) {
@@ -63,7 +63,7 @@ export const createChat = async (req, res) => {
     const newChat = await Chat.create({
       title: title || "New Conversation",
       messages: initialMessages,
-      user: req.user._id,
+      user:req.user.id,
     });
 
     res.status(201).json(newChat);
@@ -100,7 +100,7 @@ export const deleteChat = async (req, res) => {
   try {
     const chat = await Chat.findOneAndDelete({
       _id: req.params.id,
-      user: req.user._id,
+      user:req.user.id,
     });
 
     if (!chat) {
@@ -123,7 +123,7 @@ export const sendMessage = async (req, res) => {
 
   const chat = await Chat.findOne({
     _id: req.params.id,
-    user: req.user._id,
+    user:req.user.id,
   });
 
   if (!chat) {
