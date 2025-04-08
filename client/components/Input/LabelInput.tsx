@@ -1,4 +1,5 @@
 import { useId } from "react";
+import { Field, FieldError } from "react-hook-form";
 import { View } from "react-native";
 import { Text, TextInput, TextInputProps, useTheme } from "react-native-paper";
 
@@ -12,8 +13,9 @@ interface LabelInputProps {
 const LabelInput = ({
     label,
     placeholder,
-    inputProps
-}: LabelInputProps) => {
+    inputProps,
+    errorMessage
+}: LabelInputProps & { errorMessage: string }) => {
 
     const { colors } = useTheme();
     const id = useId();
@@ -30,6 +32,11 @@ const LabelInput = ({
                 placeholderTextColor={colors.outline}
                 {...inputProps}
             />
+            {errorMessage && errorMessage.length > 0 && (
+                <Text style={{ color: colors.error }}>
+                    {errorMessage}
+                </Text>
+            )}
         </View>
     )
 }

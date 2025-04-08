@@ -17,7 +17,7 @@ export const CustomLightTheme: MD3Theme = {
     onTertiary: '#FFFFFF',
     tertiaryContainer: '#2B4D60',
     onTertiaryContainer: '#FFFFFF',
-    error: '#600004',
+    error: '#c4040d',  // modified
     onError: '#FFFFFF',
     errorContainer: '#98000A',
     onErrorContainer: '#FFFFFF',
@@ -53,7 +53,7 @@ export const CustomDarkTheme: MD3Theme = {
     onTertiary: '#0E3446',
     tertiaryContainer: '#284B5E',
     onTertiaryContainer: '#C5E7FF',
-    error: '#FFB4AB',
+    error: '#c4040d',
     onError: '#690005',
     errorContainer: '#93000A',
     onErrorContainer: '#FFDAD6',
