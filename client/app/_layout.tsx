@@ -1,4 +1,5 @@
 import { Slot } from "expo-router";
+import { StatusBar } from 'expo-status-bar';
 
 import { PaperProvider } from 'react-native-paper';
 import { CustomDarkTheme, CustomLightTheme } from "@/assets/themes/themes";
@@ -8,12 +9,14 @@ export default function RootLayout() {
 
   // const colorScheme = useColorScheme(); // para detectar dark o light mode
 
-  let colorScheme = 'dark';
+  let colorScheme = 'light';
 
   const theme = colorScheme === 'dark' ? CustomDarkTheme : CustomLightTheme;
 
   return (
     <PaperProvider theme={theme} >
+      <StatusBar style={theme.dark ? "light" : "dark"} backgroundColor={theme.colors.surface} translucent={false} />
+
       <Slot />
     </PaperProvider>
   )

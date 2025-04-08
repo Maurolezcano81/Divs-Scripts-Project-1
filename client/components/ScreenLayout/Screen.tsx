@@ -1,5 +1,5 @@
 import { ReactNode } from "react"
-import { SafeAreaView } from "react-native"
+import { SafeAreaView, SafeAreaProvider } from "react-native-safe-area-context"
 import { useTheme } from "react-native-paper";
 
 interface ScreenProps {
@@ -15,9 +15,11 @@ const Screen = ({
     const { colors } = useTheme();
 
     return (
-        <SafeAreaView className={`min-h-screen p-6 ${className}`} style={{ backgroundColor: colors.surface }}>
-            {children}
-        </SafeAreaView>
+        <SafeAreaProvider>
+            <SafeAreaView className={`flex-1 min-h-screen p-6 ${className}`} style={{ backgroundColor: colors.surface }}>
+                {children}
+            </SafeAreaView>
+        </SafeAreaProvider>
     )
 }
 

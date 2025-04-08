@@ -8,6 +8,7 @@ import GreenButton from "@/components/Button/GreenButton";
 import { Controller, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { loginSchema, loginSchemaType } from "@/schemas/AuthSchema";
+import { Link } from "expo-router";
 
 const Login = () => {
     const { colors } = useTheme();
@@ -93,9 +94,9 @@ const Login = () => {
 
             <View className="mt-8">
                 <Text variant="bodyLarge" style={{ color: colors.outline, textAlign: "center" }}>
-                    Todavía no tienes una cuenta? <Text
+                    Todavía no tienes una cuenta? <Link href={'/Register'} 
                         style={{ color: colors.primary, fontWeight: 800, textDecorationLine: "underline" }}
-                    >Registrarse</Text>
+                    >Registrarse</Link>
                 </Text>
             </View>
 
