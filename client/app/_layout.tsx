@@ -1,10 +1,8 @@
-import { Stack } from "expo-router";
+import { Slot } from "expo-router";
 
 import { PaperProvider } from 'react-native-paper';
-import { useColorScheme } from 'react-native';
 import { CustomDarkTheme, CustomLightTheme } from "@/assets/themes/themes";
-import useAuthStore from "@/stores/authStore";
-
+import '../global.css'
 
 export default function RootLayout() {
 
@@ -16,11 +14,7 @@ export default function RootLayout() {
 
   return (
     <PaperProvider theme={theme} >
-      <Stack
-        screenOptions={{
-          headerShown: false
-        }}
-      />
+      <Slot />
     </PaperProvider>
   )
 }
