@@ -3,31 +3,35 @@ import { environment } from '../config/environment.js';
 import User from '../models/user.model.js';
 
 export const authMiddleware = async (req, res, next) => {
-  try {
-    const token =
-      req.headers?.authorization?.split(' ')[1] || req.cookies?.token;
+  console.log("Headers completos:", JSON.stringify(req.headers));
 
-    if (!token) {
-      return res.status(401).json({ message: 'Access denied. No token provided.' });
+  const token = (req.headers.authorization?.split(" ")[1])?.replace(/['"]+/g, "");
+  console.log("Token:", token);
+
+    if (!token) {return res.status(401).json({ message: 'No token provided' });}
+
+    try {
+      const decoded = jwt.verify(token, environment.jwt.secret);
+      console.log('Token decodificado:', decoded);
+      if(!decoded.id){ return res.status(401).json({ message: 'Invalid token' })}
+
+      const user = await User.findById(decoded.id);
+      if (!user) {
+        console.log('Usuario no encontrado con ID:', decoded.id);
+        return res.status(401).json({ message: 'User not found' });
+      }
+
+      req.user = {
+        id: user._id.toString(),
+        name: user.name,
+        email: user.email
+      };
+
+      console.log('Usuario autenticado:', user.email);
+
+      next();
+    } catch (err) {
+      console.error('Error al verificar token:', err.message);
+      return res.status(401).json({ message: 'Invalid token', details: err.message });
     }
-
-    const decoded = jwt.verify(token, environment.jwt.secret);
-
-    const user = await User.findById(decoded.id)
-    if (!user) {
-      return res.status(401).json({ message: 'User no longer exists' });
-    }
-
-    req.user = user;
-
-    next();
-  } catch (error) {
-    if (error.name === 'TokenExpiredError') {
-      return res.status(401).json({ message: 'Token expired, please log in again.' });
-    }
-
-    return res.status(401).json({ message: 'Invalid authentication token' });
-  }
 };
-
-
