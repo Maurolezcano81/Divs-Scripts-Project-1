@@ -30,6 +30,7 @@ const LabelInput = ({
                 style={{ fontFamily: "Poppins-Regular", backgroundColor: colors.surface }}
                 placeholder={placeholder}
                 placeholderTextColor={colors.outline}
+                mode="outlined"
                 {...inputProps}
             />
             {errorMessage && errorMessage.length > 0 && (

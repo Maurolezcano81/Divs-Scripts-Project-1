@@ -27,7 +27,7 @@ export const CustomLightTheme: MD3Theme = {
     onSurface: '#000000',
     surfaceVariant: '#DBE5DF',
     onSurfaceVariant: '#000000',
-    outline: '#bfc9c4',
+    outline: '#bfc9c4', // modified
     inverseSurface: '#2B322F',
     inverseOnSurface: '#FFFFFF',
     inversePrimary: '#86D6BE',
@@ -63,7 +63,7 @@ export const CustomDarkTheme: MD3Theme = {
     onSurface: '#DEE4E0',
     surfaceVariant: '#3F4945',
     onSurfaceVariant: '#BFC9C4',
-    outline: '#89938e',
+    outline: '#89938e', // modified
     inverseSurface: '#DEE4E0',
     inverseOnSurface: '#2B322F',
     inversePrimary: '#0F6B57',

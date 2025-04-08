@@ -11,7 +11,7 @@ const GreenButton = ({
     ...props
 }: GreenButtonProps) => {
     return (
-        <Button className="!p-2" {...props}>
+        <Button className="!p-2" mode="contained" {...props}>
             {children}
         </Button>
     );
