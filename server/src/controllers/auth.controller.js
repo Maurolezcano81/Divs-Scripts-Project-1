@@ -53,39 +53,90 @@ export const login = async (req, res) => {
 
 export const register = async (req, res) => {
   try {
-    const { name, email, password } = req.body;
-
-    if (!name || !email || !password) {
-      return res
-        .status(400)
-        .json({ message: "Name, email, and password are required" });
-    }
-
-    const exists = await User.findOne({ email });
-    if (exists) {
-      return res
-        .status(409)
-        .json({ message: "User already exists with this email" });
-    }
-
-    const hashedPassword = await bcrypt.hash(
-      password,
-      await bcrypt.genSalt(10)
-    );
-
-    const newUser = await User.create({
+    const {
       name,
       email,
-      password: hashedPassword,
+      password,
+      birthDate,
+      gender,
+      nationality,
+      ethnicity,
+      location
+    } = req.body;
+
+    if (!name || !email || !password) {
+      return res.status(400).json({ message: 'Name, email and password are required' });
+    }
+
+    const existingUser = await User.findOne({ email });
+    if (existingUser) {
+      return res.status(400).json({ message: 'User already exists with this email' });
+    }
+
+    const user = await User.create({
+      name,
+      email,
+      password: await bcrypt.hash(password, await bcrypt.genSalt(10)),
+      birthDate: birthDate || undefined,
+      gender: gender || undefined,
+      nationality: nationality || undefined,
+      ethnicity: ethnicity || undefined,
+      location: location || undefined
     });
 
     res.status(201).json({
-      user: formatUserResponse(newUser),
-      message: "User registered successfully",
+      user: formatUserResponse(user),
     });
+  } catch (error) {
+    console.error('Error registering user:', error);
+    res.status(500).json({ message: 'Error registering user', details: error.message });
+  }
+};
+
+export const getProfile = async (req, res) => {
+  try {
+    const user = await User.findById(req.user.id).select('-password');
+
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    res.status(200).json({ user });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
-}
+};
 
-export const getProfile = async (req, res) => {res.status(200).json({ user: req.user })};
+export const updateProfile = async (req, res) => {
+  try {
+    const {
+      name,
+      birthDate,
+      gender,
+      nationality,
+      ethnicity,
+      location
+    } = req.body;
+
+    const updatedUser = await User.findByIdAndUpdate(
+      req.user.id,
+      {
+        name,
+        birthDate,
+        gender,
+        nationality,
+        ethnicity,
+        location
+      },
+      { new: true, runValidators: true }
+    ).select('-password');
+
+    if (!updatedUser) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    res.status(200).json({ user: updatedUser });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};

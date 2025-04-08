@@ -22,6 +22,24 @@ const userSchema = new Schema({
     type: Boolean,
     default: false
   },
+  // campos demográficos
+  birthDate: {
+    type: Date
+  },
+  gender: {
+    type: String,
+    enum: ['male', 'female', 'non-binary', 'prefer not to say', 'other'],
+    default: 'prefer not to say'
+  },
+  nationality: {
+    type: String,
+    trim: true
+  },
+  ethnicity: {
+    type: String,
+    trim: true
+  },
+  //##################
   chats: [{
     type: Schema.Types.ObjectId,
     ref: 'Chat',

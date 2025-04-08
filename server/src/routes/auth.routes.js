@@ -6,7 +6,8 @@ const router = Router();
 
 router.post('/login', authController.login);
 router.post('/register', authController.register);
-router.get('/me', authMiddleware, authController.getProfile);
+router.get('/profile', authMiddleware, authController.getProfile);
+router.patch('/update-profile', authMiddleware, authController.updateProfile);
 
 const authRouter = router;
 export default authRouter;
