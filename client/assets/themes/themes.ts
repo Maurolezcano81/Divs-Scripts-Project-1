@@ -2,6 +2,7 @@ import { MD3LightTheme, MD3DarkTheme, MD3Theme } from 'react-native-paper';
 
 export const CustomLightTheme: MD3Theme = {
   ...MD3LightTheme,
+  roundness: 1,
   colors: {
     ...MD3LightTheme.colors,
     primary: '#579C88',
@@ -22,11 +23,11 @@ export const CustomLightTheme: MD3Theme = {
     onErrorContainer: '#FFFFFF',
     background: '#F5FBF6',
     onBackground: '#171D1B',
-    surface: '#F5FBF6',
+    surface: '#ffffff',
     onSurface: '#000000',
     surfaceVariant: '#DBE5DF',
     onSurfaceVariant: '#000000',
-    outline: '#252E2B',
+    outline: '#bfc9c4',
     inverseSurface: '#2B322F',
     inverseOnSurface: '#FFFFFF',
     inversePrimary: '#86D6BE',
@@ -37,6 +38,7 @@ export const CustomLightTheme: MD3Theme = {
 
 export const CustomDarkTheme: MD3Theme = {
   ...MD3DarkTheme,
+  roundness: 1,
   colors: {
     ...MD3DarkTheme.colors,
     primary: '#86D6BE',
@@ -61,7 +63,7 @@ export const CustomDarkTheme: MD3Theme = {
     onSurface: '#DEE4E0',
     surfaceVariant: '#3F4945',
     onSurfaceVariant: '#BFC9C4',
-    outline: '#89938E',
+    outline: '#89938e',
     inverseSurface: '#DEE4E0',
     inverseOnSurface: '#2B322F',
     inversePrimary: '#0F6B57',
