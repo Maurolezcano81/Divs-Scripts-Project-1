@@ -19,14 +19,6 @@ const emotionSchema = new Schema({
     max: 10,
     required: [true, 'Intensity is required']
   },
-  notes: {
-    type: String,
-    trim: true
-  },
-  tags: [{
-    type: String,
-    trim: true
-  }]
 }, {
   timestamps: true
 });

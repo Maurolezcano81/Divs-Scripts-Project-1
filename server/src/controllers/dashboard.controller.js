@@ -1,6 +1,7 @@
-import Activity from "../models/activity.model";
-import Emotion from "../models/emotion.model";
-import Note from "../models/note.model";
+import { endOfDay, startOfDay, subDays } from 'date-fns';
+import Activity from '../models/activity.model.js';
+import Emotion from '../models/emotion.model.js';
+import Note from '../models/note.model.js';
 
 export const getDashboardData = async (req, res) => {
   try {
@@ -19,16 +20,13 @@ export const getDashboardData = async (req, res) => {
       .sort('-createdAt')
       .limit(5);
 
-    // Obtener las últimas notas
     const recentNotes = await Note.find({ user: req.user.id })
       .sort('-createdAt')
       .limit(5);
 
-    // Procesar datos de emociones para gráficos
     const emotionsByDay = {};
     const last7Days = [];
 
-    // Crear array con los últimos 7 días
     for (let i = 6; i >= 0; i--) {
       const date = subDays(today, i);
       const dateStr = date.toISOString().split('T')[0];
@@ -36,7 +34,6 @@ export const getDashboardData = async (req, res) => {
       emotionsByDay[dateStr] = [];
     }
 
-    // Agrupar emociones por día
     emotions.forEach(emotion => {
       const day = emotion.createdAt.toISOString().split('T')[0];
       if (emotionsByDay[day]) {
@@ -44,7 +41,6 @@ export const getDashboardData = async (req, res) => {
       }
     });
 
-    // Calcular promedios de intensidad por día y tipo de emoción
     const moodIntensityByDay = last7Days.map(day => {
       const dayEmotions = emotionsByDay[day] || [];
       const moodCounts = {};

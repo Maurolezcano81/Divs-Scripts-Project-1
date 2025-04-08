@@ -1,10 +1,12 @@
-import Emotion from '../models/emotion.model.js';
-import { startOfDay, subDays, endOfDay } from 'date-fns';
+import Emotion from "../models/emotion.model.js";
+import mongoose from "mongoose";
+import { startOfDay, subDays, endOfDay } from "date-fns";
 
 export const getAllEmotions = async (req, res) => {
   try {
-    const emotions = await Emotion.find({ user: req.user.id })
-      .sort('-createdAt');
+    const emotions = await Emotion.find({ user: req.user.id }).sort(
+      "-createdAt"
+    );
 
     res.status(200).json(emotions);
   } catch (error) {
@@ -21,14 +23,15 @@ export const getEmotionsLast7Days = async (req, res) => {
       user: req.user.id,
       createdAt: {
         $gte: startOfDay(sevenDaysAgo),
-        $lte: endOfDay(today)
-      }
-    }).sort('-createdAt');
+        $lte: endOfDay(today),
+      },
+    }).sort("-createdAt");
 
+    // Agrupar por día para el dashboard
     const groupedByDay = {};
 
-    emotions.forEach(emotion => {
-      const day = emotion.createdAt.toISOString().split('T')[0];
+    emotions.forEach((emotion) => {
+      const day = emotion.createdAt.toISOString().split("T")[0];
 
       if (!groupedByDay[day]) {
         groupedByDay[day] = [];
@@ -39,7 +42,7 @@ export const getEmotionsLast7Days = async (req, res) => {
 
     res.status(200).json({
       emotions,
-      groupedByDay
+      groupedByDay,
     });
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -51,13 +54,17 @@ export const createEmotion = async (req, res) => {
     const { mood, intensity } = req.body;
 
     if (!mood || !intensity) {
-      return res.status(400).json({ message: 'Mood and intensity are required' });
+      return res
+        .status(400)
+        .json({ message: "Mood and intensity are required" });
     }
 
     const newEmotion = await Emotion.create({
       user: req.user.id,
       mood,
-      notes,
+      intensity,
+      notes: notes || "",
+      tags: tags || [],
     });
 
     res.status(201).json(newEmotion);
@@ -70,11 +77,11 @@ export const getEmotionById = async (req, res) => {
   try {
     const emotion = await Emotion.findOne({
       _id: req.params.id,
-      user: req.user.id
+      user: req.user.id,
     });
 
     if (!emotion) {
-      return res.status(404).json({ message: 'Emotion not found' });
+      return res.status(404).json({ message: "Emotion not found" });
     }
 
     res.status(200).json(emotion);
@@ -89,12 +96,12 @@ export const updateEmotion = async (req, res) => {
 
     const emotion = await Emotion.findOneAndUpdate(
       { _id: req.params.id, user: req.user.id },
-      { mood, intensity},
+      { mood, intensity },
       { new: true, runValidators: true }
     );
 
     if (!emotion) {
-      return res.status(404).json({ message: 'Emotion not found' });
+      return res.status(404).json({ message: "Emotion not found" });
     }
 
     res.status(200).json(emotion);
@@ -107,16 +114,15 @@ export const deleteEmotion = async (req, res) => {
   try {
     const emotion = await Emotion.findOneAndDelete({
       _id: req.params.id,
-      user: req.user.id
+      user: req.user.id,
     });
 
     if (!emotion) {
-      return res.status(404).json({ message: 'Emotion not found' });
+      return res.status(404).json({ message: "Emotion not found" });
     }
 
-    res.status(200).json({ message: 'Emotion deleted successfully' });
+    res.status(200).json({ message: "Emotion deleted successfully" });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 };
-
