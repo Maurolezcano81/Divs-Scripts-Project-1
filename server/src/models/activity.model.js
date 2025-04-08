@@ -27,6 +27,14 @@ const activitySchema = new Schema({
   timestamps: true,
 });
 
+activitySchema.post('save', async function(doc) {
+  const User = mongoose.model('User');
+  await User.findByIdAndUpdate(
+    doc.user,
+    { $addToSet: { activities: doc._id } }
+  );
+});
+
 activitySchema.plugin(autopopulate);
 
 const Activity = mongoose.model('Activity', activitySchema);

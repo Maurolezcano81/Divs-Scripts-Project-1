@@ -2,7 +2,7 @@ import Activity from '../models/activity.model.js';
 
 export const getAllActivities = async (req, res) => {
   try {
-    const activities = await Activity.find({ user: req.user._id });
+    const activities = await Activity.find({ user: req.user.id });
     res.status(200).json(activities);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -13,7 +13,7 @@ export const getActivityById = async (req, res) => {
   try {
     const activity = await Activity.findOne({
       _id: req.params.id,
-      user: req.user._id
+      user: req.user.id
     });
 
     if (!activity) {
@@ -40,7 +40,7 @@ export const createActivity = async (req, res) => {
       status: status || 'pending',
       dueDate,
       priority: priority || 'medium',
-      user: req.user._id
+      user: req.user.id
     });
 
     res.status(201).json(newActivity);
@@ -54,7 +54,7 @@ export const updateActivity = async (req, res) => {
     const { title, description, status, dueDate, priority } = req.body;
 
     const activity = await Activity.findOneAndUpdate(
-      { _id: req.params.id, user: req.user._id },
+      { _id: req.params.id, user: req.user.id },
       { title, description, status, dueDate, priority },
       { new: true, runValidators: true }
     );
@@ -73,7 +73,7 @@ export const deleteActivity = async (req, res) => {
   try {
     const activity = await Activity.findOneAndDelete({
       _id: req.params.id,
-      user: req.user._id
+      user: req.user.id
     });
 
     if (!activity) {

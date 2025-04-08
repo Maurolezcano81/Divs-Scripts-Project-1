@@ -22,7 +22,7 @@ export const authMiddleware = async (req, res, next) => {
       }
 
       req.user = {
-        id: user._id.toString(),
+        id: user.id.toString(),
         name: user.name,
         email: user.email
       };

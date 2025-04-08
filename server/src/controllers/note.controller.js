@@ -2,7 +2,7 @@ import Note from '../models/note.model.js';
 
 export const getAllNotes = async (req, res) => {
   try {
-    const notes = await Note.find({ user: req.user._id });
+    const notes = await Note.find({ user: req.user.id })
     res.status(200).json(notes);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -13,7 +13,7 @@ export const getNoteById = async (req, res) => {
   try {
     const note = await Note.findOne({
       _id: req.params.id,
-      user: req.user._id
+      user: req.user.id
     });
 
     if (!note) {
@@ -38,7 +38,7 @@ export const createNote = async (req, res) => {
       title,
       content,
       tags: tags || [],
-      user: req.user._id
+      user: req.user.id
     });
 
     res.status(201).json(newNote);
@@ -52,7 +52,7 @@ export const updateNote = async (req, res) => {
     const { title, content, tags } = req.body;
 
     const note = await Note.findOneAndUpdate(
-      { _id: req.params.id, user: req.user._id },
+      { _id: req.params.id, user: req.user.id },
       { title, content, tags },
       { new: true, runValidators: true }
     );
@@ -71,7 +71,7 @@ export const deleteNote = async (req, res) => {
   try {
     const note = await Note.findOneAndDelete({
       _id: req.params.id,
-      user: req.user._id
+      user: req.user.id
     });
 
     if (!note) {

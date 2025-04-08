@@ -4,14 +4,14 @@ import User from "../models/user.model.js";
 import { environment } from "../config/environment.js";
 
 const formatUserResponse = (user) => ({
-  id: user._id.toString(),
+  id: user.id.toString(),
   name: user.name,
   email: user.email,
 });
 
 const generateToken = (user) => {
   return jwt.sign(
-    { id: user._id.toString(), email: user.email },
+    { id: user.id.toString(), email: user.email },
     environment.jwt.secret,
     { expiresIn: environment.jwt.expiresIn }
   );
@@ -39,7 +39,7 @@ export const login = async (req, res) => {
 
     const token = generateToken(user);
     console.log('Login successful for user:', email);
-    console.log('Token generated with ID:', user._id.toString());
+    console.log('Token generated with ID:', user.id.toString());
 
 
     res.status(200).json({

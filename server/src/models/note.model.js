@@ -26,6 +26,14 @@ const noteSchema = new Schema({
   timestamps: true,
 });
 
+noteSchema.post('save', async function(doc) {
+  const User = mongoose.model('User');
+  await User.findByIdAndUpdate(
+    doc.user,
+    { $addToSet: { notes: doc._id } }
+  );
+});
+
 noteSchema.plugin(autopopulate);
 
 const Note = mongoose.model('Note', noteSchema);

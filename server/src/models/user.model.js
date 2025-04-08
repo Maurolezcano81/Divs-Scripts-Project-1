@@ -17,7 +17,26 @@ const userSchema = new Schema({
   password: {
     type: String,
     required: [true, 'Password is required']
-  }
+  },
+  active: {
+    type: Boolean,
+    default: false
+  },
+  chats: [{
+    type: Schema.Types.ObjectId,
+    ref: 'Chat',
+    autopopulate: { select: 'title messages' }
+  }],
+  notes: [{
+    type: Schema.Types.ObjectId,
+    ref: 'Note',
+    autopopulate: { select: 'title content tags' }
+  }],
+  activities: [{
+    type: Schema.Types.ObjectId,
+    ref: 'Activity',
+    autopopulate: { select: 'title description status' }
+  }],
 }, {
   timestamps: true,
 });

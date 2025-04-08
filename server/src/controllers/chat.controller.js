@@ -5,7 +5,7 @@ import Chat from "../models/chat.model.js";
 
 export const getAllChats = async (req, res) => {
   try {
-    const chats = await Chat.find({ user: req.user._id });
+    const chats = await Chat.find({ user: req.user.id })
     res.status(200).json(chats);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -81,7 +81,7 @@ export const updateChatTitle = async (req, res) => {
     }
 
     const chat = await Chat.findOneAndUpdate(
-      { _id: req.params.id, user: req.user._id },
+      { _id: req.params.id, user: req.user.id },
       { title },
       { new: true }
     );

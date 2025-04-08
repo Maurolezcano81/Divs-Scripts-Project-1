@@ -47,7 +47,7 @@ export const createUser = async (req, res) => {
 
     // Don't return password to client
     const userResponse = {
-      _id: newUser._id,
+      _id: newuser.id,
       name: newUser.name,
       email: newUser.email,
       createdAt: newUser.createdAt,
