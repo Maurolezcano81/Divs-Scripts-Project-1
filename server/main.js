@@ -3,6 +3,10 @@ import cors from 'cors';
 import express from 'express';
 import morgan from 'morgan';
 import userRoutes from './src/routes/user.routes.js';
+import authRoutes from './src/routes/auth.routes.js';
+import noteRoutes from './src/routes/note.routes.js';
+import activityRoutes from './src/routes/activity.routes.js';
+import chatRoutes from './src/routes/chat.routes.js';
 import { environment } from './src/config/environment.js';
 import { connectDB } from './src/config/db.js';
 
@@ -20,7 +24,11 @@ app.get('/', (req, res) => {
 
 await connectDB()
 
+app.use('/api/auth', authRoutes);
 app.use('/api/users', userRoutes);
+app.use('/api/notes', noteRoutes);
+app.use('/api/activities', activityRoutes);
+app.use('/api/chats', chatRoutes);
 
 app.use((err, req, res, next) => {
   console.error(err.stack);

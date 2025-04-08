@@ -20,7 +20,6 @@ const userSchema = new Schema({
   }
 }, {
   timestamps: true,
-  paranoid: true,
 });
 
 userSchema.plugin(autopopulate);
