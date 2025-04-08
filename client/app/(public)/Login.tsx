@@ -12,7 +12,6 @@ const Login = () => {
         login();
     }
 
-
     return (
         <SafeAreaView>
             <View className="">
