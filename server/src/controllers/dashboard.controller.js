@@ -74,6 +74,6 @@ export const getDashboardData = async (req, res) => {
       last7Days
     });
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.status(500).json({ message: 'Error al obtener los datos del dashboard', details: error.message });
   }
 };

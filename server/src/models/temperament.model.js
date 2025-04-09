@@ -4,28 +4,28 @@ import autopopulate from 'mongoose-autopopulate';
 const temperamentSchema = new Schema({
     colerico: {
         type: Number,
-        required: [true, 'Colerico is required']
+        required: [true, 'El valor colérico es obligatorio']
     },
     flematico: {
         type: Number,
-        required: [true, 'Flematico is required']
+        required: [true, 'El valor flemático es obligatorio']
     },
     melancolico: {
         type: Number,
-        required: [true, 'Melancolico is required']
+        required: [true, 'El valor melancólico es obligatorio']
     },
     sanguineo: {
         type: Number,
-        required: [true, 'Sanguineo is required']
+        required: [true, 'El valor sanguíneo es obligatorio']
     },
     supino: {
         type: Number,
-        required: [true, 'Supino is required']
+        required: [true, 'El valor supino es obligatorio']
     },
     user: {
         type: Schema.Types.ObjectId,
         ref: 'User',
-        required: [true, 'User is required'],
+        required: [true, 'El usuario es obligatorio'],
         autopopulate: { select: 'name email' }
     }
 }, {

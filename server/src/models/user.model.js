@@ -4,19 +4,19 @@ import autopopulate from 'mongoose-autopopulate';
 const userSchema = new Schema({
   name: {
     type: String,
-    required: [true, 'Name is required'],
+    required: [true, 'El nombre es obligatorio'],
     trim: true
   },
   email: {
     type: String,
-    required: [true, 'Email is required'],
+    required: [true, 'El correo electrónico es obligatorio'],
     unique: true,
     lowercase: true,
     trim: true
   },
   password: {
     type: String,
-    required: [true, 'Password is required']
+    required: [true, 'La contraseña es obligatoria']
   },
   active: {
     type: Boolean,
@@ -28,7 +28,7 @@ const userSchema = new Schema({
   },
   gender: {
     type: String,
-    enum: ['male', 'female', 'non-binary', 'prefer not to say', 'other'],
+    enum: ['masculino', 'femenino', 'otro'],
     default: 'prefer not to say'
   },
   nationality: {

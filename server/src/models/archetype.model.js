@@ -4,32 +4,32 @@ import autopopulate from 'mongoose-autopopulate';
 const archetypeSchema = new Schema({
     cuidador: {
         type: Number,
-        required: [true, 'Cuidador is required']
+        required: [true, 'El valor del cuidador es obligatorio']
     },
     explorador: {
         type: Number,
-        required: [true, 'Explorador is required']
+        required: [true, 'El valor del explorador es obligatorio']
     },
     forajido: {
         type: Number,
-        required: [true, 'Forajido is required']
+        required: [true, 'El valor del forajido es obligatorio']
     },
     heroe: {
         type: Number,
-        required: [true, 'Heroe is required']
+        required: [true, 'El valor del héroe es obligatorio']
     },
     mago: {
         type: Number,
-        required: [true, 'Mago is required']
+        required: [true, 'El valor del mago es obligatorio']
     },
     sabio: {
         type: Number,
-        required: [true, 'Sabio is required']
+        required: [true, 'El valor del sabio es obligatorio']
     },
     user: {
         type: Schema.Types.ObjectId,
         ref: 'User',
-        required: [true, 'User is required'],
+        required: [true, 'El usuario es obligatorio'],
         autopopulate: { select: 'name email' }
     }
 }, {

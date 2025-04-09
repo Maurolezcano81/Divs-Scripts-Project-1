@@ -23,7 +23,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(morgan('dev'));
 
 app.get('/', (req, res) => {
-  res.json({ message: 'API is working correctly' });
+  res.json({ message: 'La API está funcionando correctamente' });
 });
 
 await connectDB()
@@ -41,7 +41,7 @@ app.use('/api/temperaments', temperamentRoutes);
 app.use((req, res, next) => {
   res.status(404).json({
     error: true,
-    message: `Route not found: ${req.originalUrl}`
+    message: `Ruta no encontrada: ${req.originalUrl}`
   });
 });
 
@@ -49,10 +49,10 @@ app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(500).json({
     error: true,
-    message: 'An unexpected error occurred'
+    message: 'Ha ocurrido un error inesperado'
   });
 });
 
 app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+  console.log(`Servidor ejecutándose en el puerto ${PORT}`);
 });
