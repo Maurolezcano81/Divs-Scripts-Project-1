@@ -9,7 +9,7 @@ export default function RootLayout() {
 
   // const colorScheme = useColorScheme(); // para detectar dark o light mode
 
-  let colorScheme = 'dark';
+  let colorScheme = 'light';
 
   const theme = colorScheme === 'dark' ? CustomDarkTheme : CustomLightTheme;
 

@@ -1,0 +1,25 @@
+export const nacionalities = [
+    "Argentino/a",
+    "Boliviano/a",
+    "Chileno/a",
+    "Colombiano/a",
+    "Costarricense",
+    "Cubano/a",
+    "Dominicano/a",
+    "Ecuatoriano/a",
+    "Salvadoreño/a",
+    "Español/a",
+    "Guatemalteco/a",
+    "Hondureño/a",
+    "Mexicano/a",
+    "Nicaragüense", 
+    "Panameño/a",
+    "Paraguayo/a",
+    "Peruano/a",
+    "Puertorriqueño/a",
+    "Uruguayo/a",
+    "Venezolano/a",
+    "Guineano/a", 
+    "Estadounidense"
+  ];
+  

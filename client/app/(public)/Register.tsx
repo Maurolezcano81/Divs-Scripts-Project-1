@@ -3,12 +3,13 @@ import LabelInput from "@/components/Input/LabelInput"
 import Screen from "@/components/ScreenLayout/Screen"
 import StarSVG from "@/components/svgs/StarSVG"
 import { registerSchema, registerSchemaType } from "@/schemas/AuthSchema"
+import { nacionalities } from "@/services/Nacionality.service"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { useRouter } from "expo-router"
+import { Redirect, useRouter } from "expo-router"
 import { useState } from "react"
 import { Controller, useForm } from "react-hook-form"
 import { View } from "react-native"
-import { IconButton, Switch, Text, TextInput, useTheme } from "react-native-paper"
+import { Button, HelperText, IconButton, Menu, RadioButton, Text, TextInput, useTheme } from "react-native-paper"
 
 const Register = () => {
 
@@ -20,16 +21,19 @@ const Register = () => {
     const { handleSubmit, control, formState: { errors } } = useForm({
         resolver: zodResolver(registerSchema),
         mode: "all",
-        defaultValues: {
-            email_notifications: false,
-            terms_privacy: false,
-        }
     })
+
+    const [nacionalityVisible, setNacionalityVisible] = useState(false);
+
+    const openMenu = () => setNacionalityVisible(true);
+    const closeMenu = () => setNacionalityVisible(false);
+
 
     const onSubmit = (data: registerSchemaType) => {
         console.log(data);
     }
 
+    console.log(errors)
     return (
         <Screen className="gap-8">
             <View
@@ -162,45 +166,60 @@ const Register = () => {
                     )}
                 />
 
-                <View>
-                    <Controller
-                        name="terms_privacy"
-                        control={control}
-                        render={({ field: { onChange, value } }) => (
-                            <View
-                                style={{
-                                    flexDirection: 'row',
-                                    alignItems: 'center',
-                                    gap: 4
-                                }}
+                <Controller
+                    control={control}
+                    name={"nacionality"}
+                    render={({ field: { onChange, value }, fieldState: { error } }) => (
+                        <View>
+                            <Text className="mb-4" variant="bodyMedium" style={{ fontFamily: "Poppins-Regular" }}>
+                                Nacionalidad
+                            </Text>
+
+                            <Menu
+                                visible={nacionalityVisible}
+                                onDismiss={closeMenu}
+                                anchor={<Button mode="outlined" onPress={openMenu}>{value || "Seleccione su nacionalidad"}</Button>}
                             >
-                                <Switch value={value} onValueChange={onChange} />
+                                {nacionalities.map((nacionalidad) => (
+                                    <Menu.Item
+                                        key={nacionalidad}
+                                        onPress={() => {
+                                            onChange(nacionalidad);
+                                            closeMenu();
+                                        }}
+                                        title={nacionalidad}
+                                    />
+                                ))}
+                            </Menu>
+                            {error && <HelperText type="error" visible>{error.message}</HelperText>}
+                        </View>
+                    )}
+                />
 
-                                <Text className="flex-1" variant="bodyLarge">He leído y acepto los términos y condiciones de uso.</Text>
+                <Controller
+                    name="sex"
+                    control={control}
+                    render={({ field: { onChange, value } }) => (
+                        <View>
+                            <Text variant="bodyMedium" style={{ fontFamily: "Poppins-Regular" }}>
+                                Genero
+                            </Text>
 
-                            </View>
-                        )}
-                    />
+                            <RadioButton.Group onValueChange={onChange} value={value}>
+                                <View style={{
+                                    flexDirection: "row",
+                                    justifyContent: "center",
+                                    flexGrow: 1
+                                }}>
+                                    <RadioButton.Item style={{ flexGrow: 1 }} label="Masculino" value="Masculino" />
+                                    <RadioButton.Item style={{ flexGrow: 1 }} label="Femenino" value="Femenino" />
+                                    <RadioButton.Item style={{ flexGrow: 1 }} label="Otro/a" value="Otro" />
+                                </View>
+                            </RadioButton.Group>
+                        </View>
+                    )}
+                />
 
-                    <Controller
-                        name="email_notifications"
-                        control={control}
-                        render={({ field: { onChange, value } }) => (
-                            <View
-                                style={{
-                                    flexDirection: 'row',
-                                    alignItems: 'center',
-                                    gap: 4
-                                }}
-                            >
-                                <Switch value={value} onValueChange={onChange} />
-
-                                <Text variant="bodyLarge">Recibir notificaciones al email.</Text>
-                            </View>
-                        )}
-                    />
-
-                </View>
 
             </View>
 
@@ -212,6 +231,7 @@ const Register = () => {
                 </GreenButton>
             </View>
 
+            <Redirect href={"/Onboarding"} />
         </Screen>
     )
 }
