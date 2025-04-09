@@ -5,11 +5,10 @@ interface User {
     username: string;
     password: string;
     email: string;
-    terms_privacy: boolean;
-    email_notifications: boolean;
     birth_date: Date;
     sex: string;
     nacionality: string;
+    ethnicity: string;
     archetype: string;
     about_me: string;
 }

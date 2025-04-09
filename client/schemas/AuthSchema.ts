@@ -26,10 +26,12 @@ export const registerSchema = z.object({
     repeatPassword: z
         .string({ invalid_type_error: "Este tipo de dato no es valído.", required_error: "Este campo es obligatorio." })
         .min(1, { message: "Este campo es obligatorio." }),
-    terms_privacy: z
-        .boolean(),
-    email_notifications: z
-        .boolean(),
+    sex: z
+        .string({ invalid_type_error: "Este tipo de dato no es valído.", required_error: "Este campo es obligatorio." })
+        .min(1, { message: "Este campo es obligatorio." }),
+    nacionality: z
+        .string({ invalid_type_error: "Este tipo de dato no es valído.", required_error: "Este campo es obligatorio." })
+        .min(1, { message: "Este campo es obligatorio." }),
 }).refine((data) => data.password === data.repeatPassword, {
     message: "Las contraseñas no coinciden",
     path: ["repeatPassword"]
