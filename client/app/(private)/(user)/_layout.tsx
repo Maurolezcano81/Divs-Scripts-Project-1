@@ -7,9 +7,9 @@ import { Redirect, Slot, Stack } from "expo-router"
 const userLayout = () => {
     const { user } = useAuthStore()
 
-    // if (!user) {
-    //     return <Redirect href={"/Login"} />
-    // }
+    if (!user) {
+        return <Redirect href={"/Login"} />
+    }
 
     return (
         <Slot />

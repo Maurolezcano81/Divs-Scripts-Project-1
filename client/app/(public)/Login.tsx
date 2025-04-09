@@ -39,17 +39,17 @@ const Login = () => {
 
             <View className="gap-8 mt-8">
                 <Controller
-                    name="username"
+                    name="email"
                     control={control}
                     render={({ field: { onChange, onBlur, value } }) => (
                         <LabelInput
                             placeholder="Su nombre de usuario"
                             label="Nombre de usuario"
-                            errorMessage={errors.username?.message!}
+                            errorMessage={errors.email?.message!}
 
                             inputProps={{
                                 mode: "outlined",
-                                error: !!errors.username,
+                                error: !!errors.email,
                                 onChangeText: onChange,
                                 onBlur: onBlur,
                                 value: value

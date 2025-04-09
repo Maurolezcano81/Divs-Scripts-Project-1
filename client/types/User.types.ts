@@ -1,12 +1,12 @@
 
 
-interface User {
-    fullname: string;
-    username: string;
+export interface User {
+    id: string;
+    name: string;
     password: string;
     email: string;
     birth_date: Date;
-    sex: string;
+    genre: string;
     nacionality: string;
     ethnicity: string;
     archetype: string;

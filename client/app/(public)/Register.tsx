@@ -2,6 +2,7 @@ import GreenButton from "@/components/Button/GreenButton"
 import LabelInput from "@/components/Input/LabelInput"
 import Screen from "@/components/ScreenLayout/Screen"
 import StarSVG from "@/components/svgs/StarSVG"
+import { useAuth } from "@/hooks/useAuth"
 import { registerSchema, registerSchemaType } from "@/schemas/AuthSchema"
 import { nacionalities } from "@/services/Nacionality.service"
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -14,6 +15,7 @@ import { Button, HelperText, IconButton, Menu, RadioButton, Text, TextInput, use
 const Register = () => {
 
     const { colors } = useTheme();
+    const { registerUser, loading, error, response } = useAuth()
     const router = useRouter();
 
     const [isPasswordVisible, setIsPasswordVisible] = useState(false);
@@ -31,6 +33,7 @@ const Register = () => {
 
     const onSubmit = (data: registerSchemaType) => {
         console.log(data);
+        registerUser(data);
     }
 
     console.log(errors)
@@ -81,25 +84,6 @@ const Register = () => {
                                 onBlur: onBlur,
                                 value: value,
                                 error: !!errors.fullname
-                            }}
-                        />
-                    )}
-
-                />
-
-                <Controller
-                    name="username"
-                    control={control}
-                    render={({ field: { onChange, onBlur, value } }) => (
-                        <LabelInput
-                            label="Nombre de usuario"
-                            placeholder="Juanperez01"
-                            errorMessage={errors.username?.message!}
-                            inputProps={{
-                                onChangeText: onChange,
-                                onBlur: onBlur,
-                                value: value,
-                                error: !!errors.username
                             }}
                         />
                     )}
@@ -225,13 +209,13 @@ const Register = () => {
 
             <View className="my-8">
                 <GreenButton
-                    disabled={Object.keys(errors).length > 1}
+                    disabled={Object.keys(errors).length > 1 || loading}
+                    loading={loading}
                     onPress={handleSubmit(onSubmit)}>
                     Registrarse
                 </GreenButton>
             </View>
 
-            <Redirect href={"/Onboarding"} />
         </Screen>
     )
 }
