@@ -1,0 +1,87 @@
+import Temperament from '../models/temperament.model.js';
+
+export const getAllTemperaments = async (req, res) => {
+  try {
+    const temperaments = await Temperament.find({ user: req.user.id });
+    res.status(200).json(temperaments);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+export const getTemperamentById = async (req, res) => {
+  try {
+    const temperament = await Temperament.findOne({
+      _id: req.params.id,
+      user: req.user.id
+    });
+
+    if (!temperament) {
+      return res.status(404).json({ message: 'Temperament not found' });
+    }
+
+    res.status(200).json(temperament);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+export const createTemperament = async (req, res) => {
+  try {
+    const { colerico, flematico, melancolico, sanguineo, supino } = req.body;
+
+    if (!colerico || !flematico || !melancolico || !sanguineo || !supino) {
+      return res.status(400).json({ message: 'Colerico, flematico, melancolico, sanguineo and supino are required' });
+    }
+
+    const newTemperament = await Temperament.create({
+      colerico,
+      flematico,
+      melancolico,
+      sanguineo,
+      supino,
+      user: req.user.id
+    });
+
+    res.status(201).json(newTemperament);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+export const updateTemperament = async (req, res) => {
+  try {
+    const { colerico, flematico, melancolico, sanguineo, supino } = req.body;
+
+    const temperament = await Temperament.findOneAndUpdate(
+      { _id: req.params.id, user: req.user.id },
+      { colerico, flematico, melancolico, sanguineo, supino },
+      { new: true, runValidators: true }
+    );
+
+    if (!temperament) {
+      return res.status(404).json({ message: 'Temperament not found' });
+    }
+
+    res.status(200).json(temperament);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+export const deleteTemperament = async (req, res) => {
+  try {
+    const temperament = await Temperament.findOneAndDelete({
+      _id: req.params.id,
+      user: req.user.id
+    });
+
+    if (!temperament) {
+      return res.status(404).json({ message: 'Temperament not found' });
+    }
+
+    res.status(200).json({ message: 'Temperament deleted successfully' });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
