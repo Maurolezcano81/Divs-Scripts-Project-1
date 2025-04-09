@@ -22,7 +22,7 @@ const Register = () => {
         mode: "all",
         defaultValues: {
             email_notifications: false,
-            terms_privacy: false
+            terms_privacy: false,
         }
     })
 
@@ -203,7 +203,6 @@ const Register = () => {
                 </View>
 
             </View>
-
 
             <View className="my-8">
                 <GreenButton

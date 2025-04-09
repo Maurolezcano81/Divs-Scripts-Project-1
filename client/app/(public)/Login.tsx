@@ -45,11 +45,11 @@ const Login = () => {
                         <LabelInput
                             placeholder="Su nombre de usuario"
                             label="Nombre de usuario"
-                            errorMessage={errors.password?.message!}
+                            errorMessage={errors.username?.message!}
 
                             inputProps={{
                                 mode: "outlined",
-                                error: !!errors.password,
+                                error: !!errors.username,
                                 onChangeText: onChange,
                                 onBlur: onBlur,
                                 value: value
@@ -86,7 +86,7 @@ const Login = () => {
                 <GreenButton
                     mode="contained"
                     onPress={handleSubmit(onSubmit)}
-                    disabled={Object.keys(errors).length > 1}
+                    disabled={Object.keys(errors).length > 0}
                 >
                     Iniciar Sesión
                 </GreenButton>
