@@ -1,37 +1,46 @@
-import jwt from 'jsonwebtoken';
+import { expressjwt } from 'express-jwt';
 import { environment } from '../config/environment.js';
 import User from '../models/user.model.js';
 
-export const authMiddleware = async (req, res, next) => {
-  console.log("Headers completos:", JSON.stringify(req.headers));
+const requireAuth = expressjwt({
+  secret: environment.jwt.secret,
+  algorithms: ['HS256'],
+  requestProperty: 'auth',
+});
 
-  const token = (req.headers.authorization?.split(" ")[1])?.replace(/['"]+/g, "");
-  console.log("Token:", token);
+const loadUser = async (req, res, next) => {
+  console.log('Token decodificado:', req.auth);
 
-    if (!token) {return res.status(401).json({ message: 'No token provided' });}
-
-    try {
-      const decoded = jwt.verify(token, environment.jwt.secret);
-      console.log('Token decodificado:', decoded);
-      if(!decoded.id){ return res.status(401).json({ message: 'Invalid token' })}
-
-      const user = await User.findById(decoded.id);
-      if (!user) {
-        console.log('Usuario no encontrado con ID:', decoded.id);
-        return res.status(401).json({ message: 'User not found' });
-      }
-
-      req.user = {
-        id: user.id.toString(),
-        name: user.name,
-        email: user.email
-      };
-
-      console.log('Usuario autenticado:', user.email);
-
-      next();
-    } catch (err) {
-      console.error('Error al verificar token:', err.message);
-      return res.status(401).json({ message: 'Invalid token', details: err.message });
+  try {
+    const userId = req.auth?.id;
+    if (!userId) {
+      return res.status(401).json({ message: 'Invalid token: missing user ID' });
     }
+
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(401).json({ message: 'User not found' });
+    }
+
+    req.user = {
+      id: user.id.toString(),
+      name: user.name,
+      email: user.email
+    };
+
+    console.log('Usuario autenticado:', user.email);
+    next();
+  } catch (error) {
+    return res.status(500).json({ message: 'Server error', details: error.message });
+  }
 };
+
+const handleJwtError = (err, req, res, next) => {
+  if (err.name === 'UnauthorizedError') {
+    console.error('Error JWT:', err.message);
+    return res.status(401).json({ message: 'Invalid token', details: err.message });
+  }
+  next(err);
+};
+
+export const authMiddleware = [requireAuth, handleJwtError, loadUser];
