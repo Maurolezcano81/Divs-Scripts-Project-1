@@ -42,6 +42,6 @@ temperamentSchema.post('save', async function (doc) {
 
 temperamentSchema.plugin(autopopulate);
 
-const Temperament = mongoose.Model('Temperament', temperamentSchema);
+const Temperament = mongoose.model('Temperament', temperamentSchema);
 
 export default Temperament;

@@ -46,6 +46,6 @@ archetypeSchema.post('save', async function (doc) {
 
 archetypeSchema.plugin(autopopulate);
 
-const Archetype = mongoose.Model('Archetype', archetypeSchema);
+const Archetype = mongoose.model('Archetype', archetypeSchema);
 
 export default Archetype;
