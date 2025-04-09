@@ -27,7 +27,7 @@ export const CustomLightTheme: MD3Theme = {
     onSurface: '#000000',
     surfaceVariant: '#DBE5DF',
     onSurfaceVariant: '#000000',
-    outline: '#bfc9c4', // modified
+    outline: '#888c8a', // modified
     inverseSurface: '#2B322F',
     inverseOnSurface: '#FFFFFF',
     inversePrimary: '#86D6BE',

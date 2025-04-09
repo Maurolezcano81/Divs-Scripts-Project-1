@@ -1,10 +1,7 @@
 import { create } from "zustand";
 
 interface Store {
-    user: {
-        id: number;
-        nombre: string;
-    } | null;
+    user: User | null;
     login: () => void;
     clearSession: () => void;
 }
@@ -12,8 +9,8 @@ interface Store {
 const useAuthStore = create<Store>()
     ((set) => ({
         user: null,
-        login: () => set((state) => ({ user: { id: 1, nombre: "Mauro Lezcano" } })),
-        clearSession: () => set((state) => ({ user: null }))
+        login: () => set((state) => (state)),
+        clearSession: () => set(() => ({ user: null }))
     }))
 
 export default useAuthStore
