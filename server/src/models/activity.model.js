@@ -4,23 +4,23 @@ import autopopulate from 'mongoose-autopopulate';
 const activitySchema = new Schema({
   title: {
     type: String,
-    required: [true, 'Title is required'],
+    required: [true, 'El título es obligatorio'],
     trim: true
   },
   description: {
     type: String,
-    required: [true, 'Description is required'],
+    required: [true, 'La descripción es obligatoria'],
     trim: true
   },
   status: {
     type: String,
-    enum: ['pending', 'in-progress', 'completed', 'cancelled'],
-    default: 'pending'
+    enum: ['pendiente', 'en-progreso', 'completado', 'cancelado'],
+    default: 'pendiente'
   },
   user: {
     type: Schema.Types.ObjectId,
     ref: 'User',
-    required: [true, 'User is required'],
+    required: [true, 'El usuario es obligatorio'],
     autopopulate: { select: 'name email' }
   }
 }, {

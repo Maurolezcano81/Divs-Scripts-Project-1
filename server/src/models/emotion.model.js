@@ -5,19 +5,19 @@ const emotionSchema = new Schema({
   user: {
     type: Schema.Types.ObjectId,
     ref: 'User',
-    required: [true, 'User is required'],
+    required: [true, 'El usuario es obligatorio'],
     autopopulate: { select: 'name email' }
   },
   mood: {
     type: String,
-    enum: ['happy', 'sad', 'anxious', 'calm', 'angry', 'energetic', 'tired', 'neutral'],
-    required: [true, 'Mood is required']
+    enum: ['feliz', 'triste', 'ansioso', 'calmado', 'enojado', 'energético', 'cansado', 'neutral'],
+    required: [true, 'El estado de ánimo es obligatorio']
   },
   intensity: {
     type: Number,
     min: 1,
     max: 10,
-    required: [true, 'Intensity is required']
+    required: [true, 'La intensidad es obligatoria']
   },
 }, {
   timestamps: true

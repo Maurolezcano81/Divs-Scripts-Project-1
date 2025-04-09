@@ -8,7 +8,7 @@ export const getAllChats = async (req, res) => {
     const chats = await Chat.find({ user: req.user.id })
     res.status(200).json(chats);
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.status(500).json({ message: 'Error al obtener los chats', details: error.message });
   }
 };
 
@@ -20,12 +20,12 @@ export const getChatById = async (req, res) => {
     });
 
     if (!chat) {
-      return res.status(404).json({ message: "Chat not found" });
+      return res.status(404).json({ message: "Chat no encontrado" });
     }
 
     res.status(200).json(chat);
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.status(500).json({ message: 'Error al obtener el chat', details: error.message });
   }
 };
 
@@ -42,33 +42,33 @@ export const createChat = async (req, res) => {
       });
     }
 
-  // Opcional: Generar respuesta inicial del asistente
-      // Descomentar si deseas una respuesta automática del asistente al crear un chat
-      /*
-      try {
-        const { text } = await generateText({
-          model: llm( "gpt-4o"),
-          messages: initialMessages,
-        });
+    // Opcional: Generar respuesta inicial del asistente
+    // Descomentar si deseas una respuesta automática del asistente al crear un chat
+    /*
+    try {
+      const { text } = await generateText({
+        model: llm( "gpt-4o"),
+        messages: initialMessages,
+      });
 
-        initialMessages.push({
-          role: "assistant",
-          content: text,
-        });
-      } catch (error) {
-        console.error("Error generating initial response:", error);
-      }
-      */
+      initialMessages.push({
+        role: "assistant",
+        content: text,
+      });
+    } catch (error) {
+      console.error("Error al generar respuesta inicial:", error);
+    }
+    */
 
     const newChat = await Chat.create({
-      title: title || "New Conversation",
+      title: title || "Nueva Conversación",
       messages: initialMessages,
       user:req.user.id,
     });
 
     res.status(201).json(newChat);
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.status(500).json({ message: 'Error al crear el chat', details: error.message });
   }
 };
 
@@ -77,7 +77,11 @@ export const updateChatTitle = async (req, res) => {
     const { title } = req.body;
 
     if (!title) {
-      return res.status(400).json({ message: "Title is required" });
+      return res.status(400).json({ message: "El título es obligatorio" });
+    }
+
+    if (title.trim().length === 0) {
+      return res.status(400).json({ message: "El título no puede estar vacío" });
     }
 
     const chat = await Chat.findOneAndUpdate(
@@ -87,12 +91,12 @@ export const updateChatTitle = async (req, res) => {
     );
 
     if (!chat) {
-      return res.status(404).json({ message: "Chat not found" });
+      return res.status(404).json({ message: "Chat no encontrado" });
     }
 
     res.status(200).json(chat);
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.status(500).json({ message: 'Error al actualizar el título del chat', details: error.message });
   }
 };
 
@@ -104,12 +108,12 @@ export const deleteChat = async (req, res) => {
     });
 
     if (!chat) {
-      return res.status(404).json({ message: "Chat not found" });
+      return res.status(404).json({ message: "Chat no encontrado" });
     }
 
-    res.status(200).json({ message: "Chat deleted successfully" });
+    res.status(200).json({ message: "Chat eliminado correctamente" });
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.status(500).json({ message: 'Error al eliminar el chat', details: error.message });
   }
 };
 
@@ -118,48 +122,57 @@ export const sendMessage = async (req, res) => {
   const { message } = req.body;
 
   if (!message) {
-    return res.status(400).json({ message: "Message is required" });
+    return res.status(400).json({ message: "El mensaje es obligatorio" });
   }
 
-  const chat = await Chat.findOne({
-    _id: req.params.id,
-    user:req.user.id,
-  });
-
-  if (!chat) {
-    return res.status(404).json({ message: "Chat not found" });
+  if (message.trim().length === 0) {
+    return res.status(400).json({ message: "El mensaje no puede estar vacío" });
   }
-
-  chat.messages.push({
-    role: "user",
-    content: message,
-  });
-
-  await chat.save();
-
-  const llm = new createOpenAI({
-    apiKey: environment.openai.apiKey,
-    baseURL: environment.openai.apiUrl,
-  });
 
   try {
-    const { text } = await generateText({
-      model: llm("gpt-4o"),
-      messages: chat.messages,
+    const chat = await Chat.findOne({
+      _id: req.params.id,
+      user:req.user.id,
     });
 
-    const assistantMessage = {
-      role: "assistant",
-      content: text,
-    };
+    if (!chat) {
+      return res.status(404).json({ message: "Chat no encontrado" });
+    }
 
-    chat.messages.push(assistantMessage);
+    chat.messages.push({
+      role: "user",
+      content: message,
+    });
+
     await chat.save();
-    res.status(200).json({
-      message: assistantMessage.content,
-      chat: chat,
+
+    const llm = new createOpenAI({
+      apiKey: environment.openai.apiKey,
+      baseURL: environment.openai.apiUrl,
     });
+
+    try {
+      const { text } = await generateText({
+        model: llm("gpt-4o"),
+        messages: chat.messages,
+      });
+
+      const assistantMessage = {
+        role: "assistant",
+        content: text,
+      };
+
+      chat.messages.push(assistantMessage);
+      await chat.save();
+      res.status(200).json({
+        message: assistantMessage.content,
+        chat: chat,
+      });
+    } catch (error) {
+      console.error("Error al generar respuesta:", error);
+      res.status(500).json({ message: "Error al generar respuesta del asistente", details: error.message });
+    }
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.status(500).json({ message: 'Error al enviar el mensaje', details: error.message });
   }
 };

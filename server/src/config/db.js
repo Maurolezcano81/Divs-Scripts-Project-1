@@ -10,15 +10,15 @@ export const connectDB = async () => {
       connectionString = getMongoUri();
     }
     if (!connectionString) {
-      throw new Error('Database connection string is required');
+      throw new Error('La cadena de conexión a la base de datos es obligatoria');
     }
 
     const connection = await mongoose.connect(connectionString);
 
-    console.log('MongoDB connected successfully');
+    console.log('MongoDB conectado exitosamente');
     return connection;
   } catch (error) {
-    console.error('MongoDB connection error:', error.message);
+    console.error('Error de conexión MongoDB:', error.message);
     process.exit(1);
   }
 };

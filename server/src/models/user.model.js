@@ -4,19 +4,19 @@ import autopopulate from 'mongoose-autopopulate';
 const userSchema = new Schema({
   name: {
     type: String,
-    required: [true, 'Name is required'],
+    required: [true, 'El nombre es obligatorio'],
     trim: true
   },
   email: {
     type: String,
-    required: [true, 'Email is required'],
+    required: [true, 'El correo electrónico es obligatorio'],
     unique: true,
     lowercase: true,
     trim: true
   },
   password: {
     type: String,
-    required: [true, 'Password is required']
+    required: [true, 'La contraseña es obligatoria']
   },
   active: {
     type: Boolean,
@@ -28,7 +28,7 @@ const userSchema = new Schema({
   },
   gender: {
     type: String,
-    enum: ['male', 'female', 'non-binary', 'prefer not to say', 'other'],
+    enum: ['masculino', 'femenino', 'otro'],
     default: 'prefer not to say'
   },
   nationality: {
@@ -40,7 +40,7 @@ const userSchema = new Schema({
     trim: true
   },
   //##################
- emotions: [{
+  emotions: [{
     type: Schema.Types.ObjectId,
     ref: 'Emotion',
     autopopulate: { select: 'mood intensity createdAt notes' }
@@ -60,6 +60,17 @@ const userSchema = new Schema({
     ref: 'Activity',
     autopopulate: { select: 'title description status' }
   }],
+  // Onboarding info
+  archetype: [{
+    type: Schema.Types.ObjectId,
+    ref: 'Archetype',
+    autopopulate: { select: 'cuidador explorador forajido heroe mago sabio' }
+  }],
+  temperament: [{
+    type: Schema.Types.ObjectId,
+    ref: 'Temperament',
+    autopopulate: { select: 'colerico flematico melancolico sanguineo supino' }
+  }]
 }, {
   timestamps: true,
 });
