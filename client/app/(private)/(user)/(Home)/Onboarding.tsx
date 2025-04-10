@@ -54,7 +54,7 @@ const OnBoarding = () => {
 
     useEffect(() => {
         if (user?.active) {
-            router.replace("/(private)/(user)/(Home)/Home");
+            router.replace("/Home");
         }
     }, [user?.active]);
 
