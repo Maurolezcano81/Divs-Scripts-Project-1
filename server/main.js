@@ -13,6 +13,7 @@ import noteRoutes from './src/routes/note.routes.js';
 import userRoutes from './src/routes/user.routes.js';
 import archetypeRoutes from './src/routes/archetype.routes.js';
 import temperamentRoutes from './src/routes/temperament.routes.js';
+import classificationRoutes from './src/routes/classification.routes.js';
 
 const app = express();
 const PORT = environment.server.port || 3000;
@@ -37,6 +38,7 @@ app.use('/api/emotions', emotionRoutes);
 app.use('/api/dashboard', dashboardRoutes);
 app.use('/api/archetypes', archetypeRoutes);
 app.use('/api/temperaments', temperamentRoutes);
+app.use('/api', classificationRoutes);
 
 app.use((req, res, next) => {
   res.status(404).json({

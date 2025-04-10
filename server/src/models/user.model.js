@@ -35,10 +35,6 @@ const userSchema = new Schema({
     type: String,
     trim: true
   },
-  ethnicity: {
-    type: String,
-    trim: true
-  },
   //##################
   emotions: [{
     type: Schema.Types.ObjectId,
@@ -70,6 +66,12 @@ const userSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'Temperament',
     autopopulate: { select: 'colerico flematico melancolico sanguineo supino' }
+  }],
+  // On boarding classification result
+  classifications: [{
+    type: Schema.Types.ObjectId,
+    ref: 'Classification',
+    autopopulate: { select: 'dominantArchetype dominantTemperament createdAt' }
   }]
 }, {
   timestamps: true,

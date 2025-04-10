@@ -60,7 +60,6 @@ export const register = async (req, res) => {
       birthDate,
       gender,
       nationality,
-      location
     } = req.body;
 
     if (!name || !email || !password) {
@@ -92,7 +91,6 @@ export const register = async (req, res) => {
       birthDate: birthDate || undefined,
       gender: gender || undefined,
       nationality: nationality || undefined,
-      location: location || undefined
     });
 
     res.status(201).json({
@@ -125,7 +123,6 @@ export const updateProfile = async (req, res) => {
       birthDate,
       gender,
       nationality,
-      location
     } = req.body;
 
     if (name !== undefined && name.trim() === '') {
@@ -139,7 +136,6 @@ export const updateProfile = async (req, res) => {
         birthDate,
         gender,
         nationality,
-        location
       },
       { new: true, runValidators: true }
     ).select('-password');
