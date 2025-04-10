@@ -2,18 +2,20 @@ import GreenButton from "@/components/Button/GreenButton";
 import ArchetypeWizard from "@/components/Forms/ArchetypeWizard";
 import TemperamentWizard from "@/components/Forms/TemperamentWizard";
 import Screen from "@/components/ScreenLayout/Screen";
+import useOnboarding, { dataToFetchOnboarding } from "@/hooks/useOnboarding";
 import { archetypeWizardType } from "@/schemas/Archetypes.schema";
 import { TemperamentWizardType } from "@/schemas/Temper.schema";
 import useAuthStore from "@/stores/authStore";
 import { Redirect, useRouter } from "expo-router";
 import { useEffect, useState } from "react";
 import { View } from "react-native";
-import { ActivityIndicator, Text, useTheme } from "react-native-paper";
+import { ActivityIndicator, HelperText, Text, useTheme } from "react-native-paper";
 
 const OnBoarding = () => {
 
     const { colors } = useTheme();
     const { user } = useAuthStore();
+    const { registerOnboarding, loading, error, success, response } = useOnboarding();
 
     const [activeWizard, setActiveWizard] = useState<string | null>("Temperament");
     const [temperamentData, setTemperamentData] = useState<TemperamentWizardType | null>(null)
@@ -38,10 +40,14 @@ const OnBoarding = () => {
     };
 
     const submitData = () => {
-        const data = {
+        const data: dataToFetchOnboarding = {
             temperamentScore: getCounts(temperamentData),
             archetypeScore: getCounts(archetypeData)
         }
+
+        console.log(data);
+
+        registerOnboarding(data)
     }
 
     const router = useRouter();
@@ -93,6 +99,11 @@ const OnBoarding = () => {
                 {isFinished && (
                     <View>
                         <Text className="mb-12" variant="titleLarge" style={{ textAlign: "center", fontFamily: "Poppins-Bold" }}>Muchas gracias, por responder.</Text>
+
+                        {error && error.length > 0 && (
+                            <HelperText type="error">{error}</HelperText>
+                        )}
+
                         <View className="gap-4">
                             <GreenButton
                                 mode="outlined"
@@ -100,7 +111,11 @@ const OnBoarding = () => {
                                     setActiveWizard("Archetype")
                                     setIsFinished(false)
                                 }}>Volver</GreenButton>
-                            <GreenButton onPress={submitData}>Enviar Respuestas</GreenButton>
+                            <GreenButton
+                                onPress={submitData}
+                                loading={loading}
+                                disabled={loading}
+                            >Enviar Respuestas</GreenButton>
                         </View>
 
                     </View>
