@@ -2,29 +2,33 @@ import mongoose, { Schema } from 'mongoose';
 import autopopulate from 'mongoose-autopopulate';
 
 const archetypeSchema = new Schema({
-    cuidador: {
+    Amante: {
         type: Number,
-        required: [true, 'El valor del cuidador es obligatorio']
+        default: 0
     },
-    explorador: {
+    Cuidador: {
         type: Number,
-        required: [true, 'El valor del explorador es obligatorio']
+        default: 0
     },
-    forajido: {
+    Explorador: {
         type: Number,
-        required: [true, 'El valor del forajido es obligatorio']
+        default: 0
     },
-    heroe: {
+    Forajido: {
         type: Number,
-        required: [true, 'El valor del héroe es obligatorio']
+        default: 0
     },
-    mago: {
+    Héroe: {
         type: Number,
-        required: [true, 'El valor del mago es obligatorio']
+        default: 0
     },
-    sabio: {
+    Mago: {
         type: Number,
-        required: [true, 'El valor del sabio es obligatorio']
+        default: 0
+    },
+    Sabio: {
+        type: Number,
+        default: 0
     },
     user: {
         type: Schema.Types.ObjectId,

@@ -37,22 +37,14 @@ export const createTemperament = async (req, res) => {
 };
 
 export const createTemperamentCore = async (data, userId) => {
-  const { colerico, flematico, melancolico, sanguineo, supino } = data;
-
-  if (!colerico || !flematico || !melancolico || !sanguineo || !supino) {
-    throw new Error('Los valores colérico, flemático, melancólico, sanguíneo y supino son obligatorios');
-  }
-
-  if (isNaN(colerico) || isNaN(flematico) || isNaN(melancolico) || isNaN(sanguineo) || isNaN(supino)) {
-    throw new Error('Todos los valores de temperamento deben ser numéricos');
-  }
+  const { Colerico, Flematico, Melancolico, Sanguineo, Supino } = data;
 
   const newTemperament = await Temperament.create({
-    colerico,
-    flematico,
-    melancolico,
-    sanguineo,
-    supino,
+    Colerico,
+    Flematico,
+    Melancolico,
+    Sanguineo,
+    Supino,
     user: userId
   });
 

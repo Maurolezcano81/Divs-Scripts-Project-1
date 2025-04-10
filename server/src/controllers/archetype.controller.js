@@ -41,25 +41,15 @@ export const createArchetype = async (req, res) => {
 
 
 export const createArchetypeCore = async (data, userId) => {
-  const { cuidador, explorador, forajido, heroe, mago, sabio } = data;
-
-  if (!cuidador || !explorador || !forajido || !heroe || !mago || !sabio) {
-    throw new Error('Los valores de cuidador, explorador, forajido, héroe, mago y sabio son obligatorios');
-  };
-
-
-  if (isNaN(cuidador) || isNaN(explorador) || isNaN(forajido) ||
-    isNaN(heroe) || isNaN(mago) || isNaN(sabio)) {
-    throw new Error('Todos los valores de arquetipo deben ser numéricos');
-  }
+  const { Cuidador, Explorador, Forajido, Héroe, Mago, Sabio } = data;
 
   const newArchetype = await Archetype.create({
-    cuidador,
-    explorador,
-    forajido,
-    heroe,
-    mago,
-    sabio,
+    Cuidador,
+    Explorador,
+    Forajido,
+    Héroe,
+    Mago,
+    Sabio,
     user: userId
   });
 
