@@ -1,19 +1,17 @@
 import { z } from 'zod'
 
 export const loginSchema = z.object({
-    username: z
+    email: z
         .string({ invalid_type_error: "Este tipo de dato no es valído.", required_error: "Este campo es obligatorio." })
-        .min(1, { message: "Este campo es obligatorio." }),
+        .min(1, { message: "Este campo es obligatorio." })
+        .email({ message: "Debes introducir un email valído." }),
     password: z
         .string({ invalid_type_error: "Este tipo de dato no es valído.", required_error: "Este campo es obligatorio." })
         .min(1, { message: "Este campo es obligatorio." }),
 })
 
 export const registerSchema = z.object({
-    fullname: z
-        .string({ invalid_type_error: "Este tipo de dato no es valído.", required_error: "Este campo es obligatorio." })
-        .min(1, { message: "Este campo es obligatorio." }),
-    username: z
+    name: z
         .string({ invalid_type_error: "Este tipo de dato no es valído.", required_error: "Este campo es obligatorio." })
         .min(1, { message: "Este campo es obligatorio." }),
     email: z
@@ -26,7 +24,7 @@ export const registerSchema = z.object({
     repeatPassword: z
         .string({ invalid_type_error: "Este tipo de dato no es valído.", required_error: "Este campo es obligatorio." })
         .min(1, { message: "Este campo es obligatorio." }),
-    sex: z
+    gender: z
         .string({ invalid_type_error: "Este tipo de dato no es valído.", required_error: "Este campo es obligatorio." })
         .min(1, { message: "Este campo es obligatorio." }),
     nacionality: z

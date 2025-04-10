@@ -96,6 +96,12 @@ This document provides an overview of all available API endpoints.
 | PUT    | `/api/temperaments/:id` | Update temperament    | Yes           |
 | DELETE | `/api/temperaments/:id` | Delete temperament    | Yes           |
 
+## Onboarding
+
+| Method | Endpoint                | Description                         | Auth Required |
+| ------ | ----------------------- | ----------------------------------  | ------------- |
+| POST   | `/api/onboarding/`      | Create temperament and archetype    | Yes           |
+
 ## Authentication
 
 Most endpoints require authentication using a JWT token. Include the token in the Authorization header:

@@ -1,10 +1,11 @@
 import useAuthStore from "@/stores/authStore";
+import { Redirect } from "expo-router";
 import { View } from "react-native"
 import { Button, Text } from "react-native-paper"
 
 
 const Home = () => {
-    const { clearSession } = useAuthStore();
+    const { clearSession, user } = useAuthStore();
 
     const test = () => {
         clearSession();

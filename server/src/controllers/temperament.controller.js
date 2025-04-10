@@ -28,24 +28,7 @@ export const getTemperamentById = async (req, res) => {
 
 export const createTemperament = async (req, res) => {
   try {
-    const { colerico, flematico, melancolico, sanguineo, supino } = req.body;
-
-    if (!colerico || !flematico || !melancolico || !sanguineo || !supino) {
-      return res.status(400).json({ message: 'Los valores colérico, flemático, melancólico, sanguíneo y supino son obligatorios' });
-    }
-
-    if (isNaN(colerico) || isNaN(flematico) || isNaN(melancolico) || isNaN(sanguineo) || isNaN(supino)) {
-      return res.status(400).json({ message: 'Todos los valores de temperamento deben ser numéricos' });
-    }
-
-    const newTemperament = await Temperament.create({
-      colerico,
-      flematico,
-      melancolico,
-      sanguineo,
-      supino,
-      user: req.user.id
-    });
+    const newTemperament = await createTemperamentCore(req.body, req.user.id);
 
     res.status(201).json(newTemperament);
   } catch (error) {
@@ -53,15 +36,40 @@ export const createTemperament = async (req, res) => {
   }
 };
 
+export const createTemperamentCore = async (data, userId) => {
+  const { colerico, flematico, melancolico, sanguineo, supino } = data;
+
+  if (!colerico || !flematico || !melancolico || !sanguineo || !supino) {
+    throw new Error('Los valores colérico, flemático, melancólico, sanguíneo y supino son obligatorios');
+  }
+
+  if (isNaN(colerico) || isNaN(flematico) || isNaN(melancolico) || isNaN(sanguineo) || isNaN(supino)) {
+    throw new Error('Todos los valores de temperamento deben ser numéricos');
+  }
+
+  const newTemperament = await Temperament.create({
+    colerico,
+    flematico,
+    melancolico,
+    sanguineo,
+    supino,
+    user: userId
+  });
+
+  return newTemperament;
+
+}
+
+
 export const updateTemperament = async (req, res) => {
   try {
     const { colerico, flematico, melancolico, sanguineo, supino } = req.body;
 
     if (colerico !== undefined && isNaN(colerico) ||
-        flematico !== undefined && isNaN(flematico) ||
-        melancolico !== undefined && isNaN(melancolico) ||
-        sanguineo !== undefined && isNaN(sanguineo) ||
-        supino !== undefined && isNaN(supino)) {
+      flematico !== undefined && isNaN(flematico) ||
+      melancolico !== undefined && isNaN(melancolico) ||
+      sanguineo !== undefined && isNaN(sanguineo) ||
+      supino !== undefined && isNaN(supino)) {
       return res.status(400).json({ message: 'Todos los valores de temperamento deben ser numéricos' });
     }
 

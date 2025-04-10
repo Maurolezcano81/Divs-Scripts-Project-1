@@ -30,7 +30,6 @@ const archetypeSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'User',
         required: [true, 'El usuario es obligatorio'],
-        autopopulate: { select: 'name email' }
     }
 }, {
     timestamps: true,

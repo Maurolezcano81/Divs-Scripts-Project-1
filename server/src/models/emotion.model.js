@@ -6,7 +6,6 @@ const emotionSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'User',
     required: [true, 'El usuario es obligatorio'],
-    autopopulate: { select: 'name email' }
   },
   mood: {
     type: String,

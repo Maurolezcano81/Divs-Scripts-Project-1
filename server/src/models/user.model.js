@@ -44,7 +44,6 @@ const userSchema = new Schema({
   chats: [{
     type: Schema.Types.ObjectId,
     ref: 'Chat',
-    autopopulate: { select: 'title messages' }
   }],
   notes: [{
     type: Schema.Types.ObjectId,
@@ -60,12 +59,10 @@ const userSchema = new Schema({
   archetype: [{
     type: Schema.Types.ObjectId,
     ref: 'Archetype',
-    autopopulate: { select: 'cuidador explorador forajido heroe mago sabio' }
   }],
   temperament: [{
     type: Schema.Types.ObjectId,
     ref: 'Temperament',
-    autopopulate: { select: 'colerico flematico melancolico sanguineo supino' }
   }],
   // On boarding classification result
   classifications: [{

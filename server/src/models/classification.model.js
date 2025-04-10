@@ -5,7 +5,6 @@ const classificationSchema = new Schema({
   user: {
     type: Schema.Types.ObjectId,
     ref: 'User',
-    autopopulate: { select: 'name email' }
   },
   archetypeScore: {
     type: Schema.Types.Mixed,

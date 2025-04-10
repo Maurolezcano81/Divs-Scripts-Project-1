@@ -94,9 +94,17 @@ const ArchetypeWizard = ({
             />
 
             <View style={styles.buttonRow}>
-                <Button mode="outlined" onPress={() => setActiveWizard("Temperament")}>
-                    Atrás
-                </Button>
+
+                {step > 0 ? (
+                    <Button mode="outlined" onPress={prevStep}>
+                        Atrás
+                    </Button>
+                ) : (
+                    <Button mode="outlined" onPress={() => setActiveWizard("Temperament")}>
+                        Volver
+                    </Button>
+                )}
+
                 {step < archetypeQuestions.length - 1 ? (
                     <Button mode="contained"
                         disabled={selectedOptionIndex === -1}

@@ -1,19 +1,23 @@
+import { useAuth } from "@/hooks/useAuth";
 import useAuthStore from "@/stores/authStore";
-import { Redirect, Slot, Stack } from "expo-router"
+import { Redirect, Slot } from "expo-router";
+import { useEffect } from "react";
 
+const UserLayout = () => {
+    const { user, token } = useAuthStore();
+    const { getUserData } = useAuth();
 
+    useEffect(() => {
+        if (!user && token) {
+            getUserData();
+        }
+    }, [token]);
 
+    if (!token) {
+        return <Redirect href="/Login" />;
+    }
 
-const userLayout = () => {
-    const { user } = useAuthStore()
+    return <Slot />;
+};
 
-    // if (!user) {
-    //     return <Redirect href={"/Login"} />
-    // }
-
-    return (
-        <Slot />
-    )
-}
-
-export default userLayout;
+export default UserLayout;

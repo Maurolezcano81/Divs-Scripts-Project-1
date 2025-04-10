@@ -14,6 +14,7 @@ import userRoutes from './src/routes/user.routes.js';
 import archetypeRoutes from './src/routes/archetype.routes.js';
 import temperamentRoutes from './src/routes/temperament.routes.js';
 import classificationRoutes from './src/routes/classification.routes.js';
+import onboardingRoutes from './src/routes/onboarding.routes.js';
 
 const app = express();
 const PORT = environment.server.port || 3000;
@@ -39,6 +40,7 @@ app.use('/api/dashboard', dashboardRoutes);
 app.use('/api/archetypes', archetypeRoutes);
 app.use('/api/temperaments', temperamentRoutes);
 app.use('/api', classificationRoutes);
+app.use('/api/onboarding', onboardingRoutes);
 
 app.use((req, res, next) => {
   res.status(404).json({
