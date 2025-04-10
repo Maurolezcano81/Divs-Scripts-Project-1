@@ -1,15 +1,19 @@
-
-
-interface User {
-    fullname: string;
-    username: string;
-    password: string;
+export interface User {
+    id: string;
+    name: string;
     email: string;
-    terms_privacy: boolean;
-    email_notifications: boolean;
-    birth_date: Date;
-    sex: string;
-    nacionality: string;
-    archetype: string;
-    about_me: string;
+    active: boolean;
+    birthDate: string;
+    gender: "Masculino" | "Femenino" | "Otro/a";
+    nationality: string;
+    ethnicity: string;
+    archetype: any[];
+    temperament: any[];
+    emotions: any[];
+    chats: any[];
+    notes: any[];
+    activities: any[];
+    createdAt: string;
+    updatedAt: string;
+    __v: number;
 }

@@ -14,12 +14,12 @@ const loadUser = async (req, res, next) => {
   try {
     const userId = req.auth?.id;
     if (!userId) {
-      return res.status(401).json({ message: 'Invalid token: missing user ID' });
+      return res.status(401).json({ message: 'Token inválido: falta ID de usuario' });
     }
 
     const user = await User.findById(userId);
     if (!user) {
-      return res.status(401).json({ message: 'User not found' });
+      return res.status(401).json({ message: 'Usuario no encontrado' });
     }
 
     req.user = {
@@ -31,14 +31,14 @@ const loadUser = async (req, res, next) => {
     console.log('Usuario autenticado:', user.email);
     next();
   } catch (error) {
-    return res.status(500).json({ message: 'Server error', details: error.message });
+    return res.status(500).json({ message: 'Error del servidor', details: error.message });
   }
 };
 
 const handleJwtError = (err, req, res, next) => {
   if (err.name === 'UnauthorizedError') {
     console.error('Error JWT:', err.message);
-    return res.status(401).json({ message: 'Invalid token', details: err.message });
+    return res.status(401).json({ message: 'Token inválido', details: err.message });
   }
   next(err);
 };

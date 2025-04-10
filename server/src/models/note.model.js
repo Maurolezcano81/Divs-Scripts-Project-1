@@ -4,18 +4,18 @@ import autopopulate from 'mongoose-autopopulate';
 const noteSchema = new Schema({
   title: {
     type: String,
-    required: [true, 'Title is required'],
+    required: [true, 'El título es obligatorio'],
     trim: true
   },
   content: {
     type: String,
-    required: [true, 'Content is required'],
+    required: [true, 'El contenido es obligatorio'],
     trim: true
   },
   user: {
     type: Schema.Types.ObjectId,
     ref: 'User',
-    required: [true, 'User is required'],
+    required: [true, 'El usuario es obligatorio'],
     autopopulate: { select: 'name email' }
   },
   tags: [{

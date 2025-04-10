@@ -20,13 +20,13 @@ const messageSchema = new Schema({
 const chatSchema = new Schema({
   title: {
     type: String,
-    default: 'New Conversation',
+    default: 'Nueva Conversación',
     trim: true
   },
   user: {
     type: Schema.Types.ObjectId,
     ref: 'User',
-    required: [true, 'User is required'],
+    required: [true, 'El usuario es obligatorio'],
     autopopulate: { select: 'name email' }
   },
   messages: [messageSchema]
