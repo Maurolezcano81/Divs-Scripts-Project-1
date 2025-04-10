@@ -23,7 +23,7 @@ export default function Index() {
   }
 
   if (user) {
-    return <Redirect href={"/Home"} />
+    return <Redirect href={"/(private)/(user)/(Home)/(Main)/(tabs)/index"} />
   } else {
     return <Redirect href={"/Login"} />
   }
