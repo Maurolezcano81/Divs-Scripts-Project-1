@@ -28,43 +28,55 @@ export const getArchetypeById = async (req, res) => {
 
 export const createArchetype = async (req, res) => {
   try {
-    const { cuidador, explorador, forajido, heroe, mago, sabio } = req.body;
 
-    if (!cuidador || !explorador || !forajido || !heroe || !mago || !sabio) {
-      return res.status(400).json({ message: 'Los valores de cuidador, explorador, forajido, héroe, mago y sabio son obligatorios' });
-    }
-
-    if (isNaN(cuidador) || isNaN(explorador) || isNaN(forajido) ||
-        isNaN(heroe) || isNaN(mago) || isNaN(sabio)) {
-      return res.status(400).json({ message: 'Todos los valores de arquetipo deben ser numéricos' });
-    }
-
-    const newArchetype = await Archetype.create({
-      cuidador,
-      explorador,
-      forajido,
-      heroe,
-      mago,
-      sabio,
-      user: req.user.id
-    });
-
+    const newArchetype = await createArchetypeCore(req.body, req.user.id)
     res.status(201).json(newArchetype);
+
   } catch (error) {
+
     res.status(500).json({ message: 'Error al crear el arquetipo', details: error.message });
+
   }
 };
+
+
+export const createArchetypeCore = async (data, userId) => {
+  const { cuidador, explorador, forajido, heroe, mago, sabio } = data;
+
+  if (!cuidador || !explorador || !forajido || !heroe || !mago || !sabio) {
+    throw new Error('Los valores de cuidador, explorador, forajido, héroe, mago y sabio son obligatorios');
+  };
+
+
+  if (isNaN(cuidador) || isNaN(explorador) || isNaN(forajido) ||
+    isNaN(heroe) || isNaN(mago) || isNaN(sabio)) {
+    throw new Error('Todos los valores de arquetipo deben ser numéricos');
+  }
+
+  const newArchetype = await Archetype.create({
+    cuidador,
+    explorador,
+    forajido,
+    heroe,
+    mago,
+    sabio,
+    user: userId
+  });
+
+  return newArchetype;
+}
+
 
 export const updateArchetype = async (req, res) => {
   try {
     const { cuidador, explorador, forajido, heroe, mago, sabio } = req.body;
 
     if ((cuidador !== undefined && isNaN(cuidador)) ||
-        (explorador !== undefined && isNaN(explorador)) ||
-        (forajido !== undefined && isNaN(forajido)) ||
-        (heroe !== undefined && isNaN(heroe)) ||
-        (mago !== undefined && isNaN(mago)) ||
-        (sabio !== undefined && isNaN(sabio))) {
+      (explorador !== undefined && isNaN(explorador)) ||
+      (forajido !== undefined && isNaN(forajido)) ||
+      (heroe !== undefined && isNaN(heroe)) ||
+      (mago !== undefined && isNaN(mago)) ||
+      (sabio !== undefined && isNaN(sabio))) {
       return res.status(400).json({ message: 'Todos los valores de arquetipo deben ser numéricos' });
     }
 
