@@ -2,11 +2,12 @@ import GreenButton from "@/components/Button/GreenButton"
 import LabelInput from "@/components/Input/LabelInput"
 import Screen from "@/components/ScreenLayout/Screen"
 import StarSVG from "@/components/svgs/StarSVG"
+import { useAuth } from "@/hooks/useAuth"
 import { registerSchema, registerSchemaType } from "@/schemas/AuthSchema"
 import { nacionalities } from "@/services/Nacionality.service"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Redirect, useRouter } from "expo-router"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { Controller, useForm } from "react-hook-form"
 import { View } from "react-native"
 import { Button, HelperText, IconButton, Menu, RadioButton, Text, TextInput, useTheme } from "react-native-paper"
@@ -25,15 +26,31 @@ const Register = () => {
 
     const [nacionalityVisible, setNacionalityVisible] = useState(false);
 
+
     const openMenu = () => setNacionalityVisible(true);
     const closeMenu = () => setNacionalityVisible(false);
 
+    const { registerUser, loading, error, success } = useAuth()
+    const [shouldRedirect, setShouldRedirect] = useState(false);
 
     const onSubmit = (data: registerSchemaType) => {
-        console.log(data);
+        registerUser(data);
     }
 
-    console.log(errors)
+    useEffect(() => {
+        if (success) {
+            const timer = setTimeout(() => {
+                setShouldRedirect(true);
+            }, 1500);
+
+            return () => clearTimeout(timer);
+        }
+    }, [success]);
+
+    if (shouldRedirect) {
+        return <Redirect href="/Login" />;
+    }
+
     return (
         <Screen className="gap-8">
             <View
@@ -69,37 +86,18 @@ const Register = () => {
 
             <View className="gap-8 mt-8">
                 <Controller
-                    name="fullname"
+                    name="name"
                     control={control}
                     render={({ field: { onChange, onBlur, value } }) => (
                         <LabelInput
                             label="Nombre Completo"
                             placeholder="Juan Perez"
-                            errorMessage={errors.fullname?.message!}
+                            errorMessage={errors.name?.message!}
                             inputProps={{
                                 onChangeText: onChange,
                                 onBlur: onBlur,
                                 value: value,
-                                error: !!errors.fullname
-                            }}
-                        />
-                    )}
-
-                />
-
-                <Controller
-                    name="username"
-                    control={control}
-                    render={({ field: { onChange, onBlur, value } }) => (
-                        <LabelInput
-                            label="Nombre de usuario"
-                            placeholder="Juanperez01"
-                            errorMessage={errors.username?.message!}
-                            inputProps={{
-                                onChangeText: onChange,
-                                onBlur: onBlur,
-                                value: value,
-                                error: !!errors.username
+                                error: !!errors.name
                             }}
                         />
                     )}
@@ -197,7 +195,7 @@ const Register = () => {
                 />
 
                 <Controller
-                    name="sex"
+                    name="gender"
                     control={control}
                     render={({ field: { onChange, value } }) => (
                         <View>
@@ -223,15 +221,22 @@ const Register = () => {
 
             </View>
 
+            {error && (
+                <Text>
+                    {error}
+                </Text>
+
+            )}
+
             <View className="my-8">
                 <GreenButton
-                    disabled={Object.keys(errors).length > 1}
+                    disabled={Object.keys(errors).length > 1 || loading || success}
+                    loading={loading}
                     onPress={handleSubmit(onSubmit)}>
-                    Registrarse
+                    {success ? "Redirigiendo..." : "Registrar"}
                 </GreenButton>
             </View>
 
-            <Redirect href={"/Onboarding"} />
         </Screen>
     )
 }

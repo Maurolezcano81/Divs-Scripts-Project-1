@@ -3,12 +3,13 @@ import { View } from "react-native"
 import { Text, TextInput, useTheme } from "react-native-paper"
 import LabelInput from "@/components/Input/LabelInput";
 import Screen from "@/components/ScreenLayout/Screen";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import GreenButton from "@/components/Button/GreenButton";
 import { Controller, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { loginSchema, loginSchemaType } from "@/schemas/AuthSchema";
-import { Link } from "expo-router";
+import { Link, Redirect } from "expo-router";
+import { useAuth } from "@/hooks/useAuth";
 
 const Login = () => {
     const { colors } = useTheme();
@@ -19,9 +20,27 @@ const Login = () => {
         mode: "all"
     })
 
+    const { loginUser, loading, error, success } = useAuth()
+    const [shouldRedirect, setShouldRedirect] = useState(false);
+
     const onSubmit = (data: loginSchemaType) => {
-        console.log(data)
+        loginUser(data);
     }
+
+    useEffect(() => {
+        if (success) {
+            const timer = setTimeout(() => {
+                setShouldRedirect(true);
+            }, 1500);
+
+            return () => clearTimeout(timer);
+        }
+    }, [success]);
+
+    if (shouldRedirect) {
+        return <Redirect href="/(private)/(user)/(Home)/Onboarding" />;
+    }
+
 
     return (
         <Screen >
@@ -39,17 +58,17 @@ const Login = () => {
 
             <View className="gap-8 mt-8">
                 <Controller
-                    name="username"
+                    name="email"
                     control={control}
                     render={({ field: { onChange, onBlur, value } }) => (
                         <LabelInput
-                            placeholder="Su nombre de usuario"
-                            label="Nombre de usuario"
-                            errorMessage={errors.username?.message!}
+                            placeholder="Correo Electrónico"
+                            label="Correo Electrónico"
+                            errorMessage={errors.email?.message!}
 
                             inputProps={{
                                 mode: "outlined",
-                                error: !!errors.username,
+                                error: !!errors.email,
                                 onChangeText: onChange,
                                 onBlur: onBlur,
                                 value: value
@@ -82,19 +101,25 @@ const Login = () => {
 
             </View>
 
-            <View className="mt-12">
+            <View className="gap-4 mt-12">
+                {error && (
+                    <Text>
+                        {error}
+                    </Text>
+
+                )}
+
                 <GreenButton
-                    mode="contained"
-                    onPress={handleSubmit(onSubmit)}
-                    disabled={Object.keys(errors).length > 0}
-                >
-                    Iniciar Sesión
+                    disabled={Object.keys(errors).length > 1 || loading || success}
+                    loading={loading}
+                    onPress={handleSubmit(onSubmit)}>
+                    {success ? "Redirigiendo..." : "Iniciar Sesión"}
                 </GreenButton>
             </View>
 
             <View className="mt-8">
                 <Text variant="bodyLarge" style={{ color: colors.outline, textAlign: "center" }}>
-                    Todavía no tienes una cuenta? <Link href={'/Register'} 
+                    Todavía no tienes una cuenta? <Link href={'/Register'}
                         style={{ color: colors.primary, fontWeight: 800, textDecorationLine: "underline" }}
                     >Registrarse</Link>
                 </Text>
