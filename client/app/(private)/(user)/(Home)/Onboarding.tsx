@@ -4,13 +4,16 @@ import TemperamentWizard from "@/components/Forms/TemperamentWizard";
 import Screen from "@/components/ScreenLayout/Screen";
 import { archetypeWizardType } from "@/schemas/Archetypes.schema";
 import { TemperamentWizardType } from "@/schemas/Temper.schema";
-import { useState } from "react";
+import useAuthStore from "@/stores/authStore";
+import { Redirect, useRouter } from "expo-router";
+import { useEffect, useState } from "react";
 import { View } from "react-native";
-import { Text, useTheme } from "react-native-paper";
+import { ActivityIndicator, Text, useTheme } from "react-native-paper";
 
 const OnBoarding = () => {
 
     const { colors } = useTheme();
+    const { user } = useAuthStore();
 
     const [activeWizard, setActiveWizard] = useState<string | null>("Temperament");
     const [temperamentData, setTemperamentData] = useState<TemperamentWizardType | null>(null)
@@ -35,17 +38,27 @@ const OnBoarding = () => {
     };
 
     const submitData = () => {
-        console.log(temperamentData);
-        console.log(archetypeData);
-
         const data = {
             temperamentScore: getCounts(temperamentData),
             archetypeScore: getCounts(archetypeData)
         }
-
-        console.log(data);
     }
 
+    const router = useRouter();
+
+    useEffect(() => {
+        if (user?.active) {
+            router.replace("/(private)/(user)/(Home)/Home");
+        }
+    }, [user?.active]);
+
+    if (user?.active) {
+        return (
+            <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+                <ActivityIndicator size="large" />
+            </View>
+        );
+    }
     return (
         <Screen>
 
@@ -55,7 +68,7 @@ const OnBoarding = () => {
                 </Text>
 
                 <Text variant="bodyLarge">
-                    Necesitamos algunos datos adicionales para adaptar las respuestas a tus preferencias y brindarte una experiencia personalizada. <Text className="!font-bold">No te preocupes, toda la información es privada y no será publicada en ningún lado.</Text>
+                    Hola {user?.name} Necesitamos algunos datos adicionales para adaptar las respuestas a tus preferencias y brindarte una experiencia personalizada. <Text className="!font-bold">No te preocupes, toda la información es privada y no será publicada en ningún lado.</Text>
                 </Text>
             </View>
 
