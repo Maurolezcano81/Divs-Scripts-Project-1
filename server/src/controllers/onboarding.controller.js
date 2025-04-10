@@ -15,7 +15,7 @@ export const createOnboarding = async (req, res) => {
     const newArchetype = await createArchetypeCore(archetypeScore, req.user.id)
     const newTemperament = await createTemperamentCore(temperamentScore, req.user.id)
 
-    res.status(201).json({ newTemperament });
+    res.status(201).json({ newTemperament, newArchetype });
   } catch (error) {
     res.status(500).json({ message: 'Error al crear el temperamento y el arquetipo', details: error.message });
   }
