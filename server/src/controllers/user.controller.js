@@ -105,6 +105,16 @@ export const updateUser = async (req, res) => {
   }
 };
 
+export const activateUser = async (id) => {
+  console.log(id)
+  if (!id) throw new Error('El id es necesario')
+  if (id.length < 0) throw new Error('El id debe ser un id')
+
+  const userUpdated = await User.findByIdAndUpdate(id, { active: true })
+
+  return userUpdated
+}
+
 export const deleteUser = async (req, res) => {
   try {
     const user = await User.findByIdAndDelete(req.params.id);
