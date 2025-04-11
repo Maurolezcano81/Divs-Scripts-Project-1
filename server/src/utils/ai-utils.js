@@ -17,12 +17,29 @@ export async function generateAIResponse(messages, userId) {
   }
   const llm = createOpenAIClient();
 
-
   const hasSystemMessage = messages.some((m) => m.role === "system");
 
   let messagesWithSystem = [...messages];
   if (!hasSystemMessage && userId) {
-    const user = await User.findById(userId).populate('classifications');
+    const user = await User.findById(userId)
+      .populate('classifications')
+      .populate('archetype')
+      .populate('temperament')
+      .populate({
+        path: "emotions",
+        options: { sort: { createdAt: -1 }, limit: 10 },
+      })
+      .populate({
+        path: "notes",
+        options: { sort: { createdAt: -1 }, limit: 10 },
+      })
+      .populate({
+        path: "activities",
+        match: { status: { $ne: "completed" } },
+        options: { limit: 7 },
+      })
+      .select('classifications archetype temperament name gender birthDate nationality emotions notes activities');
+
     const systemPrompt = createChatSystemPrompt(user);
     messagesWithSystem = [
       { role: "system", content: systemPrompt },

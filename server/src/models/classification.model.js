@@ -2,42 +2,47 @@ import mongoose, { Schema } from 'mongoose';
 import autopopulate from 'mongoose-autopopulate';
 
 const classificationSchema = new Schema({
-  user: {
-    type: Schema.Types.ObjectId,
-    ref: 'User',
-  },
   archetypeScore: {
-    type: Schema.Types.Mixed,
-    required: [true, 'Los puntajes de arquetipos son obligatorios']
+    Amante: { type: Number, required: true },
+    Cuidador: { type: Number, required: true },
+    Explorador: { type: Number, required: true },
+    Forajido: { type: Number, required: true },
+    Héroe: { type: Number, required: true },
+    Mago: { type: Number, required: true },
+    Sabio: { type: Number, required: true }
   },
   temperamentScore: {
-    type: Schema.Types.Mixed,
-    required: [true, 'Los puntajes de temperamentos son obligatorios']
+    Colerico: { type: Number, required: true },
+    Flematico: { type: Number, required: true },
+    Melancolico: { type: Number, required: true },
+    Sanguineo: { type: Number, required: true },
+    Supino: { type: Number, required: true }
   },
   dominantArchetype: {
     type: String,
-    required: [true, 'El arquetipo dominante es obligatorio']
+    required: true,
+    enum: ['Amante', 'Cuidador', 'Explorador', 'Forajido', 'Héroe', 'Mago', 'Sabio']
   },
   dominantTemperament: {
     type: String,
-    required: [true, 'El temperamento dominante es obligatorio']
+    required: true,
+    enum: ['Colerico', 'Flematico', 'Melancolico', 'Sanguineo', 'Supino']
   },
+  user: {
+    type: Schema.Types.ObjectId,
+    ref: 'User',
+    required: [true, 'El usuario es obligatorio']
+  }
 }, {
-  timestamps: true,
+  timestamps: true
 });
 
-classificationSchema.post('save', async function(doc) {
-  if (doc.user) {
-    try {
-      const User = mongoose.model('User');
-      await User.findByIdAndUpdate(
-        doc.user,
-        { $addToSet: { classifications: doc._id } }
-      );
-    } catch (error) {
-      console.error('Error al actualizar la referencia del usuario:', error);
-    }
-  }
+classificationSchema.post('save', async function (doc) {
+  const User = mongoose.model('User');
+  await User.findByIdAndUpdate(
+    doc.user,
+    { $addToSet: { classifications: doc._id } }
+  );
 });
 
 classificationSchema.plugin(autopopulate);
