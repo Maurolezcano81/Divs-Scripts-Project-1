@@ -8,8 +8,7 @@ router.get('/', authMiddleware, chatController.getAllChats);
 router.get('/:id', authMiddleware, chatController.getChatById);
 router.delete('/:id', authMiddleware, chatController.deleteChat);
 
-
-router.post('/', authMiddleware, chatController.createChat);
+router.post('/create', authMiddleware, chatController.createChat);
 router.post('/:id/messages', authMiddleware, chatController.sendMessage);
 router.patch('/:id/title', authMiddleware, chatController.updateChatTitle);
 
