@@ -8,19 +8,26 @@ interface Store {
     clearSession: () => void;
     token: string | null;
     setToken: (token: string) => void;
+
+    dark: boolean;
+    setTheme: () => void;
 }
 
 const useAuthStore = create<Store>()
     ((set) => ({
         user: null,
         token: null,
+        dark: true,
         login: (data) => set(() => ({
             user: {
                 ...data
             },
         })),
         setToken: (token) => set(() => ({ token })),
-        clearSession: () => set(() => ({ user: null, token: null }))
+        setTheme: () =>
+            set((state) => ({
+                dark: !state.dark,
+            })), clearSession: () => set(() => ({ user: null, token: null }))
     }))
 
 export default useAuthStore

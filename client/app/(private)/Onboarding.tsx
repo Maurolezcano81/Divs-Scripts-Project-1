@@ -6,7 +6,7 @@ import useOnboarding, { dataToFetchOnboarding } from "@/hooks/useOnboarding";
 import { archetypeWizardType } from "@/schemas/Archetypes.schema";
 import { TemperamentWizardType } from "@/schemas/Temper.schema";
 import useAuthStore from "@/stores/authStore";
-import { Redirect, useRouter } from "expo-router";
+import { useRouter } from "expo-router";
 import { useEffect, useState } from "react";
 import { View } from "react-native";
 import { ActivityIndicator, HelperText, Text, useTheme } from "react-native-paper";
@@ -21,6 +21,22 @@ const OnBoarding = () => {
     const [temperamentData, setTemperamentData] = useState<TemperamentWizardType | null>(null)
     const [archetypeData, setArchetypeData] = useState<archetypeWizardType | null>(null)
     const [isFinished, setIsFinished] = useState<boolean>(false);
+
+    const router = useRouter();
+
+    useEffect(() => {
+        if (user?.active) {
+            router.replace("/(private)/(user)/(Home)/Home");
+        }
+    }, [user?.active]);
+
+    if (loading) {
+        return (
+            <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+                <ActivityIndicator size="large" />
+            </View>
+        );
+    }
 
     const getCounts = (data: any) => {
         const counts: Record<string, number> = {};
@@ -50,21 +66,6 @@ const OnBoarding = () => {
         registerOnboarding(data)
     }
 
-    const router = useRouter();
-
-    useEffect(() => {
-        if (user?.active) {
-            router.replace("/(private)/(user)/(Home)/(tabs)/index");
-        }
-    }, [user?.active]);
-
-    if (user?.active) {
-        return (
-            <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-                <ActivityIndicator size="large" />
-            </View>
-        );
-    }
     return (
         <Screen>
 

@@ -1,5 +1,5 @@
 import { ReactNode } from "react";
-import { Button, Dialog as PaperDialog, Portal } from "react-native-paper";
+import { Button, Dialog as PaperDialog, Portal, useTheme } from "react-native-paper";
 
 interface DialogProps {
   children: ReactNode;
@@ -16,9 +16,13 @@ const CustomDialog = ({
   isVisible,
   title
 }: DialogProps) => {
+  const { colors } = useTheme();
+
   return (
     <Portal>
-      <PaperDialog visible={isVisible} onDismiss={onDismiss}>
+      <PaperDialog visible={isVisible} onDismiss={onDismiss}
+        style={{ backgroundColor: colors.background }}
+      >
         <PaperDialog.Title>{title}</PaperDialog.Title>
         <PaperDialog.Content>
           {children}

@@ -8,7 +8,7 @@ const publicLayout = () => {
     const { user } = useAuthStore();
 
     if (user) {
-        return <Redirect href={'/(private)/(user)/(Home)/(tabs)/index'} />
+        return <Redirect href={'/(private)/(user)/(Home)/Home'} />
     }
 
     return (

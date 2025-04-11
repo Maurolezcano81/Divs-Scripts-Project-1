@@ -7,5 +7,7 @@ export const endpoints = {
     register: "/auth/register",
     profile: "/auth/profile",
     registerOnboarding: "/onboarding",
-    dashboardInfo: "/dashboard"
+    dashboardInfo: "/dashboard",
+    getActivities: "/activities",
+    createActivity: "/activities"
 }

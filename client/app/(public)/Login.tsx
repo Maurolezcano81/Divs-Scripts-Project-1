@@ -38,7 +38,7 @@ const Login = () => {
     }, [success]);
 
     if (shouldRedirect) {
-        return <Redirect href="/Onboarding" />;
+        return <Redirect href="/(private)/(user)/(Home)/Home" />;
     }
 
 

@@ -1,23 +1,8 @@
-import { useAuth } from "@/hooks/useAuth";
-import useAuthStore from "@/stores/authStore";
-import { Redirect, Slot } from "expo-router";
-import { useEffect } from "react";
+import React from "react";
+import DrawerNavigator from "./DrawerNavigator";
 
-const UserLayout = () => {
-    const { user, token } = useAuthStore();
-    const { getUserData } = useAuth();
-
-    useEffect(() => {
-        if (!user && token) {
-            getUserData();
-        }
-    }, [token]);
-
-    if (!token) {
-        return <Redirect href="/Login" />;
-    }
-
-    return <Slot />;
-};
-
-export default UserLayout;
+export default function UserLayout() {
+    return (
+            <DrawerNavigator />
+    );
+}

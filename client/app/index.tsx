@@ -1,7 +1,10 @@
+import "react-native-gesture-handler";
+
 import useAuthStore from "@/stores/authStore";
 import { useFonts } from "expo-font";
 import { Redirect, SplashScreen } from "expo-router";
 import { useEffect } from "react";
+
 
 export default function Index() {
   const { user } = useAuthStore();
@@ -23,9 +26,9 @@ export default function Index() {
   }
 
   if (user) {
-    return <Redirect href={"/(private)/(user)/(Home)/(Main)/(tabs)/index"} />
+    return <Redirect href={"/(private)/(user)/(Home)/Home"} />
   } else {
-    return <Redirect href={"/Login"} />
+    return <Redirect href={"/(public)/Login"} />
   }
   
 }
