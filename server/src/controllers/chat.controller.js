@@ -35,7 +35,7 @@ export const getChatById = async (req, res) => {
 
 export const createChat = async (req, res) => {
   try {
-    const { title, initialMessage } = req.body;
+    const { initialMessage } = req.body;
 
     const userId = req.user.id;
     const user = await User.findById(userId)
@@ -51,7 +51,7 @@ export const createChat = async (req, res) => {
     });
 
     const newChat = await Chat.create({
-      title: title || "Nueva Conversación",
+      title: "Nueva Conversación",
       messages: initialMessages,
       user: userId,
     });
