@@ -6,6 +6,7 @@ import useOnboarding, { dataToFetchOnboarding } from "@/hooks/useOnboarding";
 import { archetypeWizardType } from "@/schemas/Archetypes.schema";
 import { TemperamentWizardType } from "@/schemas/Temper.schema";
 import useAuthStore from "@/stores/authStore";
+import { User } from "@/types/User.types";
 import { Redirect, useRouter } from "expo-router";
 import { useEffect, useState } from "react";
 import { View } from "react-native";
@@ -14,8 +15,10 @@ import { ActivityIndicator, HelperText, Text, useTheme } from "react-native-pape
 const OnBoarding = () => {
 
     const { colors } = useTheme();
-    const { user } = useAuthStore();
+    const { user, login } = useAuthStore();
     const { registerOnboarding, loading, error, success, response } = useOnboarding();
+
+
 
     const [activeWizard, setActiveWizard] = useState<string | null>("Temperament");
     const [temperamentData, setTemperamentData] = useState<TemperamentWizardType | null>(null)
@@ -53,6 +56,7 @@ const OnBoarding = () => {
 
     useEffect(() => {
         if (success) {
+            login({ ...user, active: true } as User);
             const timer = setTimeout(() => {
                 setShouldRedirect(true);
             }, 1500);
