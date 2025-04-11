@@ -4,20 +4,25 @@ import { StatusBar } from 'expo-status-bar';
 import { PaperProvider } from 'react-native-paper';
 import { CustomDarkTheme, CustomLightTheme } from "@/assets/themes/themes";
 import '../global.css'
+import { GestureHandlerRootView } from "react-native-gesture-handler";
+import useAuthStore from "@/stores/authStore";
 
 export default function RootLayout() {
 
   // const colorScheme = useColorScheme(); // para detectar dark o light mode
 
-  let colorScheme = 'dark';
 
-  const theme = colorScheme === 'dark' ? CustomDarkTheme : CustomLightTheme;
+  const { dark } = useAuthStore()
+
+  const color = dark ? CustomDarkTheme : CustomLightTheme;
 
   return (
-    <PaperProvider theme={theme} >
-      <StatusBar style={theme.dark ? "light" : "dark"} backgroundColor={theme.colors.surface} translucent={false} />
+    <GestureHandlerRootView>
+      <PaperProvider theme={color} >
+        <StatusBar style={color.dark ? "light" : "dark"} backgroundColor={color.colors.surface} translucent={false} />
 
-      <Slot />
-    </PaperProvider>
+        <Slot />
+      </PaperProvider>
+    </GestureHandlerRootView>
   )
 }

@@ -17,7 +17,7 @@ const Screen = ({
 
     return (
         <SafeAreaProvider>
-            <SafeAreaView className={`flex-1 min-h-screen p-6 ${className}`} style={{ backgroundColor: colors.surface }}>
+            <SafeAreaView className={`flex-1 h-screen p-6 ${className}`} style={{ backgroundColor: colors.surface }}>
                 <ScrollView
                     showsVerticalScrollIndicator={false}
                 >

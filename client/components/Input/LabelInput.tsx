@@ -15,7 +15,7 @@ const LabelInput = ({
     placeholder,
     inputProps,
     errorMessage
-}: LabelInputProps & { errorMessage: string }) => {
+}: LabelInputProps & { errorMessage: any }) => {
 
     const { colors } = useTheme();
     const id = useId();
