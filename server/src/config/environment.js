@@ -15,7 +15,7 @@ export const environment = {
 
   openai: {
     apiKey: process.env.OPENAI_API_KEY || "",
-    apiUrl: process.env.OPENAI_API_URL || "",
+    apiUrl: process.env.AI_ENDPOINT || "https://models.inference.ai.azure.com",
     model: process.env.OPENAI_MODEL || "",
   },
 
