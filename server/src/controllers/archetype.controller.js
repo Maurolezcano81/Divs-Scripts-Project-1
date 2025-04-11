@@ -12,7 +12,7 @@ export const getAllArchetypes = async (req, res) => {
 export const getArchetypeById = async (req, res) => {
   try {
     const archetype = await Archetype.findOne({
-      _id: req.params.id,
+      id: req.params.id,
       user: req.user.id
     });
 
@@ -71,7 +71,7 @@ export const updateArchetype = async (req, res) => {
     }
 
     const archetype = await Archetype.findOneAndUpdate(
-      { _id: req.params.id, user: req.user.id },
+      { id: req.params.id, user: req.user.id },
       { cuidador, explorador, forajido, heroe, mago, sabio },
       { new: true, runValidators: true }
     );
@@ -89,7 +89,7 @@ export const updateArchetype = async (req, res) => {
 export const deleteArchetype = async (req, res) => {
   try {
     const archetype = await Archetype.findOneAndDelete({
-      _id: req.params.id,
+      id: req.params.id,
       user: req.user.id
     });
 

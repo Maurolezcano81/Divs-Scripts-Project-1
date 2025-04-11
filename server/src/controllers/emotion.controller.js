@@ -92,7 +92,7 @@ export const createEmotion = async (req, res) => {
 export const getEmotionById = async (req, res) => {
   try {
     const emotion = await Emotion.findOne({
-      _id: req.params.id,
+      id: req.params.id,
       user: req.user.id,
     });
 
@@ -129,7 +129,7 @@ export const updateEmotion = async (req, res) => {
     }
 
     const emotion = await Emotion.findOneAndUpdate(
-      { _id: req.params.id, user: req.user.id },
+      { id: req.params.id, user: req.user.id },
       { mood, intensity },
       { new: true, runValidators: true }
     );
@@ -147,7 +147,7 @@ export const updateEmotion = async (req, res) => {
 export const deleteEmotion = async (req, res) => {
   try {
     const emotion = await Emotion.findOneAndDelete({
-      _id: req.params.id,
+      id: req.params.id,
       user: req.user.id,
     });
 

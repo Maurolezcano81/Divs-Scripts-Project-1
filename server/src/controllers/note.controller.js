@@ -12,7 +12,7 @@ export const getAllNotes = async (req, res) => {
 export const getNoteById = async (req, res) => {
   try {
     const note = await Note.findOne({
-      _id: req.params.id,
+      id: req.params.id,
       user: req.user.id
     });
 
@@ -67,7 +67,7 @@ export const updateNote = async (req, res) => {
     }
 
     const note = await Note.findOneAndUpdate(
-      { _id: req.params.id, user: req.user.id },
+      { id: req.params.id, user: req.user.id },
       { title, content, tags },
       { new: true, runValidators: true }
     );
@@ -85,7 +85,7 @@ export const updateNote = async (req, res) => {
 export const deleteNote = async (req, res) => {
   try {
     const note = await Note.findOneAndDelete({
-      _id: req.params.id,
+      id: req.params.id,
       user: req.user.id
     });
 

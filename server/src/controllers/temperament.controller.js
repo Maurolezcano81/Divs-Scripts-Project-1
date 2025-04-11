@@ -12,7 +12,7 @@ export const getAllTemperaments = async (req, res) => {
 export const getTemperamentById = async (req, res) => {
   try {
     const temperament = await Temperament.findOne({
-      _id: req.params.id,
+      id: req.params.id,
       user: req.user.id
     });
 
@@ -66,7 +66,7 @@ export const updateTemperament = async (req, res) => {
     }
 
     const temperament = await Temperament.findOneAndUpdate(
-      { _id: req.params.id, user: req.user.id },
+      { id: req.params.id, user: req.user.id },
       { colerico, flematico, melancolico, sanguineo, supino },
       { new: true, runValidators: true }
     );
@@ -84,7 +84,7 @@ export const updateTemperament = async (req, res) => {
 export const deleteTemperament = async (req, res) => {
   try {
     const temperament = await Temperament.findOneAndDelete({
-      _id: req.params.id,
+      id: req.params.id,
       user: req.user.id
     });
 

@@ -53,7 +53,7 @@ export const createUser = async (req, res) => {
     });
 
     const userResponse = {
-      _id: newUser.id,
+      id: newUser.id,
       name: newUser.name,
       email: newUser.email,
     };

@@ -12,7 +12,7 @@ export const getAllActivities = async (req, res) => {
 export const getActivityById = async (req, res) => {
   try {
     const activity = await Activity.findOne({
-      _id: req.params.id,
+      id: req.params.id,
       user: req.user.id
     });
 
@@ -81,7 +81,7 @@ export const updateActivity = async (req, res) => {
     }
 
     const activity = await Activity.findOneAndUpdate(
-      { _id: req.params.id, user: req.user.id },
+      { id: req.params.id, user: req.user.id },
       { title, description, status, dueDate },
       { new: true, runValidators: true }
     );
@@ -99,7 +99,7 @@ export const updateActivity = async (req, res) => {
 export const deleteActivity = async (req, res) => {
   try {
     const activity = await Activity.findOneAndDelete({
-      _id: req.params.id,
+      id: req.params.id,
       user: req.user.id
     });
 
