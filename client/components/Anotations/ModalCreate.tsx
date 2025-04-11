@@ -1,23 +1,20 @@
 import { View } from "react-native";
-import CustomDialog from "../dialog/Dialog";
 import { Controller, useForm } from "react-hook-form";
-import ActivityForm from "./ActivityForm";
 import GreenButton from "../Button/GreenButton";
 import { useState } from "react";
-import useActivities from "@/hooks/useActivities";
 import { Portal, Dialog, Button, useTheme, } from "react-native-paper";
 import LabelInput from "../Input/LabelInput";
 
-export type ActivityFormData = {
+export type AnotationFormData = {
     title: string;
-    description: string;
+    content: string;
     is_completed: boolean;
     dueDate: Date;
 };
 
 const ModalCreate = ({
-    createActivity
-}: {createActivity: any}) => {
+    createAnotations
+}: { createAnotations: any }) => {
     const { colors } = useTheme();
     const [isDialogVisible, setIsDialogVisible] = useState(false);
 
@@ -26,10 +23,10 @@ const ModalCreate = ({
         control,
         reset,
         formState: { errors },
-    } = useForm<ActivityFormData>({
+    } = useForm<AnotationFormData>({
         defaultValues: {
             title: "",
-            description: "",
+            content: "",
         },
         mode: "onTouched",
     });
@@ -40,13 +37,12 @@ const ModalCreate = ({
 
         const payload = {
             title: data.title,
-            description: data.description,
+            content: data.content,
             status: "pendiente",
-            dueDate: new Date()
+            dueDate: new Date().toISOString()
         };
-        console.log(payload)
 
-        createActivity(payload);
+        createAnotations(payload);
         setIsDialogVisible(false);
         reset();
     };
@@ -54,7 +50,7 @@ const ModalCreate = ({
     return (
         <View>
             <GreenButton icon="plus" onPress={() => setIsDialogVisible(true)}>
-                Agregar Tarea
+                Agregar Nota
             </GreenButton>
 
             {isDialogVisible && (
@@ -66,7 +62,7 @@ const ModalCreate = ({
                     }}
                         style={{ backgroundColor: colors.background }}
                     >
-                        <Dialog.Title>Crear Actividad</Dialog.Title>
+                        <Dialog.Title>Crear Nota</Dialog.Title>
                         <Dialog.Content>
                             <View style={{ padding: 16, gap: 12 }}>
                                 <Controller
@@ -75,7 +71,7 @@ const ModalCreate = ({
                                     rules={{ required: "El título es obligatorio" }}
                                     render={({ field: { onChange, value } }) => (
                                         <LabelInput
-                                            placeholder="Titulo de la actividad"
+                                            placeholder="Titulo de la anotación"
                                             label="Titulo"
                                             inputProps={{
                                                 mode: "outlined",
@@ -89,19 +85,19 @@ const ModalCreate = ({
                                 />
                                 <Controller
                                     control={control}
-                                    name="description"
+                                    name="content"
                                     rules={{ required: "La descripción es obligatoria" }}
                                     render={({ field: { onChange, value } }) => (
                                         <LabelInput
-                                            placeholder="Descripción de la actividad"
+                                            placeholder="Descripción de la anotación"
                                             label="Descripción"
                                             inputProps={{
                                                 mode: "outlined",
-                                                error: !!errors.description?.message,
+                                                error: !!errors.content?.message,
                                                 onChangeText: onChange,
                                                 value,
                                             }}
-                                            errorMessage={errors.description?.message!}
+                                            errorMessage={errors.content?.message!}
                                         />
                                     )}
                                 />

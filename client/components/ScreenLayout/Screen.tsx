@@ -1,31 +1,28 @@
-import { ReactNode } from "react"
-import { SafeAreaView, SafeAreaProvider } from "react-native-safe-area-context"
-import { useTheme } from "react-native-paper";
+import React, { ReactNode } from "react";
 import { ScrollView } from "react-native";
+import { useTheme } from "react-native-paper";
+import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 
 interface ScreenProps {
-    className?: string;
-    children: ReactNode;
+  className?: string;
+  children: ReactNode;
+  scrollable?: boolean;
 }
 
-const Screen = ({
-    className = "p-6",
-    children
-}: ScreenProps) => {
+const Screen = ({ className = "p-6", children, scrollable = true }: ScreenProps) => {
+  const { colors } = useTheme();
 
-    const { colors } = useTheme();
+  const Container = scrollable ? ScrollView : React.Fragment;
 
-    return (
-        <SafeAreaProvider>
-            <SafeAreaView className={`flex-1 h-screen p-6 ${className}`} style={{ backgroundColor: colors.surface }}>
-                <ScrollView
-                    showsVerticalScrollIndicator={false}
-                >
-                    {children}
-                </ScrollView>
-            </SafeAreaView>
-        </SafeAreaProvider>
-    )
+  return (
+    <SafeAreaProvider>
+      <SafeAreaView className={`flex-1 ${className}`} style={{ backgroundColor: colors.surface }}>
+        <Container {...(scrollable ? { showsVerticalScrollIndicator: false } : {})}>
+          {children}
+        </Container>
+      </SafeAreaView>
+    </SafeAreaProvider>
+  )
 }
 
-export default Screen;
+export default Screen

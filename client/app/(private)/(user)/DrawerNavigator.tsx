@@ -3,11 +3,13 @@ import React from 'react';
 import { createDrawerNavigator, DrawerItemList } from '@react-navigation/drawer';
 import Home from '@/app/(private)/(user)/(Home)/Home';
 import Asistant from '@/app/(private)/(user)/(Home)/Asistant';
-import { ScrollView, View } from 'react-native';
+import { View } from 'react-native';
 import { Avatar, Button, Divider, Icon, Text, useTheme } from 'react-native-paper';
 import useAuthStore from '@/stores/authStore';
 import HomeLayout from './(Home)/_layout';
 import Activities from './Activities';
+import Anotations from './Anotations';
+import HistoryEmotions from './HistoryEmotions';
 
 
 const Drawer = createDrawerNavigator();
@@ -72,10 +74,28 @@ export default function DrawerNavigator() {
         options={{
           drawerIcon: ({ color, size }) => <Icon source="home-outline" size={size} color={color} />
         }} />
+
+      <Drawer.Screen name="Seguimiento de emociones" component={HistoryEmotions}
+        options={{
+          drawerIcon: ({ color, size }) => <Icon source="history" size={size} color={color} />
+        }}
+        listeners={({ navigation }) => ({
+          drawerItemPress: (e) => {
+            e.preventDefault();
+          },
+        })}
+      />
+
       <Drawer.Screen name="Actividades" component={Activities}
         options={{
           drawerIcon: ({ color, size }) => <Icon source="format-list-checkbox" size={size} color={color} />
         }} />
+
+      <Drawer.Screen name="Notas" component={Anotations}
+        options={{
+          drawerIcon: ({ color, size }) => <Icon source="notebook" size={size} color={color} />
+        }} />
     </Drawer.Navigator>
+
   );
 }

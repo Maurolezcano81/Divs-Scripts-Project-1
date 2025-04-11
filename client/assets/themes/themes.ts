@@ -13,7 +13,7 @@ export const CustomLightTheme: MD3Theme = {
     onSecondary: '#FFFFFF',
     secondaryContainer: '#364E46',
     onSecondaryContainer: '#FFFFFF',
-    tertiary: '#083042',
+    tertiary: '#F5FBF6',
     onTertiary: '#FFFFFF',
     tertiaryContainer: '#2B4D60',
     onTertiaryContainer: '#FFFFFF',
@@ -49,7 +49,7 @@ export const CustomDarkTheme: MD3Theme = {
     onSecondary: '#1D352E',
     secondaryContainer: '#344C44',
     onSecondaryContainer: '#CDE9DE',
-    tertiary: '#A9CBE2',
+    tertiary: '#86D6BE', // utilizado para el chat, es el cprimary
     onTertiary: '#0E3446',
     tertiaryContainer: '#284B5E',
     onTertiaryContainer: '#C5E7FF',

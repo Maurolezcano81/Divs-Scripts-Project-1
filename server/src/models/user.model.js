@@ -28,7 +28,7 @@ const userSchema = new Schema({
   },
   gender: {
     type: String,
-    enum: ['masculino', 'femenino', 'otro'],
+    enum: ['Masculino', 'Femenino', 'Otro'],
     default: 'prefer not to say'
   },
   nationality: {

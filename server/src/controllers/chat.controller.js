@@ -16,8 +16,9 @@ export const getAllChats = async (req, res) => {
 
 export const getChatById = async (req, res) => {
   try {
+    
     const chat = await Chat.findOne({
-      id: req.params.id,
+      _id: req.params.id,
       user: req.user.id,
     });
 
@@ -153,7 +154,7 @@ export const sendMessage = async (req, res) => {
 
   try {
     const chat = await Chat.findOne({
-      id: req.params.id,
+      _id: req.params.id,
       user: req.user.id,
     });
 

@@ -1,32 +1,32 @@
-import ModalCreate from "@/components/Activities/ModalCreate";
+import ModalCreate from "@/components/Anotations/ModalCreate";
 import GreenButton from "@/components/Button/GreenButton";
 import Screen from "@/components/ScreenLayout/Screen";
-import useActivities from "@/hooks/useActivities";
+import useAnotations from "@/hooks/useAnotations";
 import { useEffect, useState } from "react";
 import { FlatList, View } from "react-native";
 import { Searchbar, Text, useTheme, Card } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 // Componente acepta prop opcional 'limit'
-const Activities = ({ limit }: { limit?: number }) => {
+const Anotations = ({ limit }: { limit?: number }) => {
     const { colors } = useTheme();
     const [searchQuery, setSearchQuery] = useState("");
 
     const {
-        getActivities,
+        getAnotations,
         loading,
-        listActivities,
-        createActivity
-    } = useActivities();
+        listAnotations,
+        createAnotations
+    } = useAnotations();
 
     useEffect(() => {
-        getActivities();
+        getAnotations();
     }, []);
 
-    const filteredActivities = Array.isArray(listActivities)
-        ? listActivities.filter((activity: any) => {
+    const filteredActivities = Array.isArray(listAnotations)
+        ? listAnotations.filter((activity: any) => {
             const titulo = activity.title?.toLowerCase() || "";
-            const descripcion = activity.description?.toLowerCase() || "";
+            const descripcion = activity.content?.toLowerCase() || "";
             const query = searchQuery.toLowerCase();
             return titulo.includes(query) || descripcion.includes(query);
         })
@@ -38,7 +38,7 @@ const Activities = ({ limit }: { limit?: number }) => {
     if (loading) {
         return (
             <SafeAreaView style={{ flex: 1, justifyContent: "center", alignItems: "center", backgroundColor: colors.surface }}>
-                <Text>Cargando actividades...</Text>
+                <Text>Cargando anotaciones...</Text>
             </SafeAreaView>
         );
     }
@@ -49,7 +49,7 @@ const Activities = ({ limit }: { limit?: number }) => {
                 <View>
                     <View style={{ paddingTop: 8 }}>
                         <Text variant="headlineLarge" style={{ color: colors.primary, fontFamily: "Poppins-Bold" }}>
-                            Mis Actividades
+                            Mis Notas
                         </Text>
                     </View>
 
@@ -62,8 +62,8 @@ const Activities = ({ limit }: { limit?: number }) => {
                         />
 
                         <View style={{ gap: 8, marginBottom: 12 }}>
-                            <ModalCreate createActivity={createActivity} />
-                            <GreenButton icon="refresh" onPress={getActivities}>
+                            <ModalCreate createAnotations={createAnotations} />
+                            <GreenButton icon="refresh" onPress={getAnotations}>
                                 Refrescar
                             </GreenButton>
                         </View>
@@ -83,7 +83,7 @@ const Activities = ({ limit }: { limit?: number }) => {
                                     {item.title}
                                 </Text>
                                 <Text variant="bodyMedium" style={{ fontFamily: "Poppins-Regular", margin: 4 }}>
-                                    {item.description}
+                                    {item.content}
                                 </Text>
                                 <Text variant="bodySmall" style={{ fontFamily: "Poppins-Regular", color: colors.primary }}>
                                     {new Date(item.updatedAt).toLocaleDateString()}
@@ -96,7 +96,7 @@ const Activities = ({ limit }: { limit?: number }) => {
             ) : (
                 <View>
                     <Text style={{ textAlign: "center", marginVertical: 20 }}>
-                        No hay actividades. ¡Añade una!
+                        No hay anotaciones. ¡Añade una!
                     </Text>
                 </View>
             )}
@@ -104,4 +104,4 @@ const Activities = ({ limit }: { limit?: number }) => {
     );
 };
 
-export default Activities;
+export default Anotations;

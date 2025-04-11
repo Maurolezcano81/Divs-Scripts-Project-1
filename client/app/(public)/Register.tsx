@@ -52,7 +52,7 @@ const Register = () => {
     }
 
     return (
-        <Screen className="gap-8">
+        <Screen className="p-6">
             <View
                 style={{
                     flexDirection: "row",

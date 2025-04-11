@@ -9,5 +9,11 @@ export const endpoints = {
     registerOnboarding: "/onboarding",
     dashboardInfo: "/dashboard",
     getActivities: "/activities",
-    createActivity: "/activities"
+    createActivity: "/activities",
+    getChats: "/chats",
+    createChat: "/chats/create",
+    getChatById: "/messages", // id por params
+    createMessage: "/messages",
+    getAnotations: "/notes",
+    createAnotations: "/notes",
 }

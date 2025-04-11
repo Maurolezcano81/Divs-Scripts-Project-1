@@ -19,7 +19,7 @@ export default function HomeLayout() {
 
   const renderIcon = ({ route, focused, color }) => {
     let iconName = route.icon;
-    let iconColor = focused ? colors.surface : colors.outline;
+    let iconColor = focused ? colors.background : colors.outline;
 
     return <Icon source={iconName} color={iconColor} size={24} />;
   };

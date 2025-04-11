@@ -1,4 +1,4 @@
-import Activities from "@/app/(private)/(user)/Activities";
+import Anotations from "@/app/(private)/(user)/Anotations";
 import { API_URL, endpoints } from "@/globals";
 import useAuthStore from "@/stores/authStore";
 import { useEffect, useState } from "react";
@@ -20,23 +20,23 @@ interface ErrorRegisterResponse extends Response {
     details: string;
 }
 
-const useActivities = () => {
+const useAnotations = () => {
 
     const [loading, setLoading] = useState<boolean>(false);
     const [error, setError] = useState<string | null>(null);
     const [response, setResponse] = useState<any>(null);
-    const [listActivities, setListActivities] = useState<Activity[]>([])
+    const [listAnotations, setListAnotations] = useState<Activity[]>([])
     const [success, setSuccess] = useState<boolean>();
     const [created, setCreated] = useState<boolean>(false);
 
     const { token } = useAuthStore();
 
-    const getActivities = async () => {
+    const getAnotations = async () => {
         setLoading(true);
         setSuccess(false)
         setError(null);
         try {
-            const res = await fetch(`${API_URL}${endpoints.getActivities}`, {
+            const res = await fetch(`${API_URL}${endpoints.getAnotations}`, {
                 method: "GET",
                 headers: {
                     'Content-Type': 'application/json',
@@ -50,9 +50,9 @@ const useActivities = () => {
                 const err = json as ErrorRegisterResponse;
                 setError(err.message);
             } else {
-                const success = json as DataResponse;
+                const success = json as any;
                 setResponse(success);
-                setListActivities(success)
+                setListAnotations(success)
                 setSuccess(true)
             }
         } catch (error) {
@@ -65,15 +65,15 @@ const useActivities = () => {
     console.log(created)
 
     useEffect(() => {
-        getActivities();
+        getAnotations();
     }, [created]);
 
-    const createActivity = async (data: Activity) => {
+    const createAnotations = async (data: any) => {
         setLoading(true);
         setSuccess(false)
         setError(null);
         try {
-            const res = await fetch(`${API_URL}${endpoints.createActivity}`, {
+            const res = await fetch(`${API_URL}${endpoints.createAnotations}`, {
                 method: "POST",
                 headers: {
                     'Content-Type': 'application/json',
@@ -90,7 +90,7 @@ const useActivities = () => {
                 setError(err.message);
             } else {
                 setResponse(json);
-                setListActivities(prev => [...prev, data]);
+                setListAnotations(prev => [...prev, data]);
                 setCreated(!created);
                 setSuccess(true);
             }
@@ -103,14 +103,14 @@ const useActivities = () => {
 
 
     return {
-        getActivities,
+        getAnotations,
         loading,
         error,
         success,
         response,
-        createActivity,
-        listActivities,
+        createAnotations,
+        listAnotations,
     }
 }
 
-export default useActivities;
+export default useAnotations;
