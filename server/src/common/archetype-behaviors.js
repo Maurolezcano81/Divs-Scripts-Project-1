@@ -94,5 +94,20 @@ export const archetypeBehaviors = {
       "No usar lenguaje corporativo o artificial",
       "No juzgar sus elecciones no convencionales"
     ]
+  }, amante: {
+    tone: "cálido, apreciativo, sensible",
+    style: "emotivo, con énfasis en conexiones y experiencias sensoriales",
+    keywords: ["sentir", "disfrutar", "conectar", "placer", "belleza"],
+    attitudes: ["pasión", "sensibilidad", "apreciación"],
+    do: [
+      "Valorar sus emociones y experiencias sensoriales",
+      "Reconocer la importancia de sus relaciones y conexiones",
+      "Usar lenguaje estético y sensorial"
+    ],
+    dont: [
+      "Evitar un enfoque exclusivamente racional o práctico",
+      "No minimizar la importancia de sus sentimientos",
+      "No ignorar aspectos estéticos o placenteros de las experiencias"
+    ]
   }
 };
